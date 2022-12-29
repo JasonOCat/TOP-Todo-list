@@ -12,6 +12,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    assetModuleFilename: 'images/[name].[hash].[ext][query]',
     clean: true,
   },
   plugins: [
@@ -39,7 +40,11 @@ module.exports = {
             plugins: ['@babel/plugin-proposal-object-rest-spread']
           }
         }
-      }
+      },
+      {
+        test: /\.html$/i,
+        loader: "html-loader",
+      },
     ],
   },
   devtool: 'source-map'

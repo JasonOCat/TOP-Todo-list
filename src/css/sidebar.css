@@ -1,0 +1,53 @@
+
+.sidebar {
+    background-color: #f7f7f7;
+    padding-top: 30px;
+    padding-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+}
+
+.sidebar h2 {
+    font-size: 1.1rem;
+    padding-bottom: 20px;
+}
+
+.first-links,
+.second-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+    gap: 5px;
+    padding-bottom: 40px;
+    padding-left: 0px;
+    margin-right: 18px;
+}
+
+
+.first-links li,
+.second-links li{
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.first-links span,
+.second-links span{
+    cursor: pointer;
+    width: 100%;
+    padding: 10px 10px;
+    border-radius: 5px;
+}
+
+
+.first-links span:hover,
+.second-links span:hover{
+    background-color: #d6d6d6;
+}
+
+.first-links img,
+.second-links img {
+    width: 22px;
+}
