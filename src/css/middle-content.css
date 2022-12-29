@@ -1,5 +1,17 @@
 .middle-content {
     display: grid;
-    grid-template-columns: minmax(250px, 1fr) 4fr;
+    grid-template-columns: minmax(305px, 1fr) 4fr;
 
+}
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 40px;
+    padding-left: 30px;
+}
+
+.main-content {
+    width: 75%;
 }
