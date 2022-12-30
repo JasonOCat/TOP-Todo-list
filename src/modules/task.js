@@ -89,6 +89,4 @@ const taskFactory = (title, description = null, dueDate = null) => {
      };
 };
 
-
-
 export default taskFactory;
