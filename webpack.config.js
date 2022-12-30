@@ -8,9 +8,10 @@ module.exports = {
   entry: './src/index.js',
   devServer: {
     static: path.join(__dirname, 'dist'),
+    watchFiles: ['src/**/*.html'],
   },
   output: {
-    filename: 'main.js',
+    filename: 'main.[contenthash].js',
     path: path.resolve(__dirname, 'dist'),
     assetModuleFilename: 'images/[name].[hash][ext][query]',
     clean: true,
