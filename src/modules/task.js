@@ -1,6 +1,6 @@
 import { compareAsc, format, parse } from 'date-fns'
 
-const taskFactory = (title, description = null, dueDate = null) => {
+const Task = (title, description = null, dueDate = null) => {
 
     let _title = title;
     let _description = description;
@@ -89,4 +89,4 @@ const taskFactory = (title, description = null, dueDate = null) => {
      };
 };
 
-export default taskFactory;
+export default Task;
