@@ -1,9 +1,9 @@
 import { compareAsc, format, parse } from 'date-fns'
 
-const taskFactory = (title, description, dueDate = null) => {
+const taskFactory = (title, description = null, dueDate = null) => {
 
     let _title = title;
-    let _description = description
+    let _description = description;
     let _dueDate = dueDate;
     let _completed = false;
 
@@ -18,6 +18,18 @@ const taskFactory = (title, description, dueDate = null) => {
     const isPresentOrFutureDate = (date) => {
         let dateNow = parse(format(new Date(),"dd/MM/yyyy"), "dd/MM/yyyy", new Date());
         return date !== null && compareAsc(date, dateNow) !== -1 // check if the due date is not in the past
+    }
+
+    if (!isValidTitle(title)) {
+        throw new Error('Title is invalid');
+    }
+
+    if (description !== null && !isValidDescription(description)) {
+        throw new Error('Description is invalid');
+    }
+
+    if (dueDate !== null && !isPresentOrFutureDate(dueDate)) {
+        throw new Error('Due date is invalid');
     }
 
     return {
