@@ -23,24 +23,45 @@
             <div class="sidebar">
                 <ul class="first-links">
 
-                    <button class="btn-project" id="btn-inbox-project" data-project="Inbox" active>
-                        <li><img src="./img/inbox.png" alt="Inbox"> Inbox</li>
-                    </button>
+                    <li>
+                        <button class="btn-project" id="btn-inbox-project" data-project="Inbox" active>
+                            <img src="./img/inbox.png" alt="Inbox"> Inbox
+                        </button>
+                    </li>
+              
+                    <li>
+                        <button class="btn-project" id="btn-today-project" data-project="Today">
+                            <img src="img/today.png" alt="Today"> Today
+                        </button>
+                    </li>
 
-                    <button class="btn-project" id="btn-today-project" data-project="Today">
-                        <li><img src="img/today.png" alt="Today"> Today</li>
-                    </button>
-
-                    <button class="btn-project" id="btn-upcoming-project" data-project="Upcoming">
-                        <li><img src="img/upcoming.png" alt="Upcoming"> Upcoming</li>
-                    </button>
+                    <li>
+                        <button class="btn-project" id="btn-upcoming-project" data-project="Upcoming">
+                            <img src="img/upcoming.png" alt="Upcoming"> Upcoming
+                        </button>
+                    </li>
                 </ul>
 
 
                 <h2>Projets</h1>
-                    <ul class="second-links">
-                        <button>
-                            <li><img src="img/inbox.png"> Inbox</li>
+                    <ul class="second-links" >
+
+                        <div id="list-projects">
+                        </div>
+
+                        <div id="add-project-form">
+                            <div>
+                                <input class="input-project" type="text" placeholder="Name of the new Project">
+                            </div>
+                            <div id="add-project-buttons">
+                                <button type="button" class="btn-add" disabled>Add</button>
+                                <button type="button" class="btn-cancel">Cancel</button>
+                            </div>
+
+
+                        </div>
+                        <button class="btn-project" id="btn-add-project" active>
+                            <img src="img/plus.png" alt="Upcoming"> Add a project
                         </button>
 
                     </ul>

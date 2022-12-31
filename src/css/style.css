@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;600;700&display=swap');
 
+
 :root {
     font-family: Arial, Helvetica, sans-serif;
     --main-color: #1A92D3;
     --grey: #E2E8EF;
     --bborder: 1px solid black;
+    --font-color: #232b2b;
+    --disabled-add-button-color: #F2B9B3;
+    --not-hover-add-button-color: #db4c3f;
+    --hover-add-button-color: #B03D31;
+    --active-cancel-button-color: #E5E5E5;;
+    --not-active-cancel-button-color: #d6d6d6;
+
     color: #232b2b;
     
 }
@@ -40,4 +48,17 @@ html, body {
     display: grid;
     grid-template-rows: auto 1fr auto;
     grid-template-columns: 100%;
+}
+
+.project-name {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 25ch;
+}
+
+.project-name:hover{
+    text-overflow: clip;
+    white-space: normal;
+    word-break: break-all;
 }
