@@ -1,0 +1,24 @@
+
+
+const ProjectViewUI = (() => {
+    const projectViewDiv = document.querySelector(".project-view");
+    
+    const openProject = (projectName) => {
+        projectViewDiv.innerHTML = 
+        `
+        <h2>${projectName}</h2>
+        `;
+    };
+
+    const cleanProjectView = () => {
+        projectViewDiv.innerHTML = '';
+    }
+
+    return {
+        openProject,
+        cleanProjectView,
+    }
+
+})();
+
+export default ProjectViewUI

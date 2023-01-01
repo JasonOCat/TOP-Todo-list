@@ -1,4 +1,5 @@
 import MainUI from "./MainUI";
+import ProjectViewUI from './ProjectViewUI'
 import Project, { isValidProjectName } from '../Project';
 import ProjectList from '../ProjectList';
 import ImgList from '../../img/list.png'
@@ -22,18 +23,18 @@ const SideBarProjectUI = (() => {
 
     const initNavLinkButtons = () => {
 
-        inboxProjectButton.addEventListener('click', (event) => {
-            MainUI.openProject('Inbox');
+        inboxProjectButton.addEventListener('click', () => {
+            ProjectViewUI.openProject('Inbox');
             setActiveProject(inboxProjectButton);
         });
 
-        todayProjectButton.addEventListener('click', (event) => {
-            MainUI.openProject('Today');
+        todayProjectButton.addEventListener('click', () => {
+            ProjectViewUI.openProject('Today');
             setActiveProject(todayProjectButton);
         });
 
-        upcomingProjectButton.addEventListener('click', (event) => {
-            MainUI.openProject('Upcoming');
+        upcomingProjectButton.addEventListener('click', () => {
+            ProjectViewUI.openProject('Upcoming');
             setActiveProject(upcomingProjectButton);
         });
     };
@@ -77,9 +78,10 @@ const SideBarProjectUI = (() => {
         let newProject = Project(inputProject.value);
         ProjectList.addProject(newProject); 
 
-        // Reload the projects list on the UI after adding the new project
-        cleanListProjects();
-        MainUI.loadProjects();
+        // Add
+        addProjectButtons(newProject);
+
+
         hideAddProjectForm();
         displayAddProjectButton();
         clearAddProjectInput();
@@ -136,7 +138,12 @@ const SideBarProjectUI = (() => {
         addProjectButton.removeAttribute('active');
     }
 
-    /******* END HELPERS to display or hide the add project button or add project form ************/
+    const cleanListProjects = () => {
+        const projectListDiv = document.querySelector('#list-projects');
+            projectListDiv.innerHTML = '';
+    }
+
+    /******* END HELPERS to display or hide the add project button, the add project form, or the list of projects ************/
 
 
     const deleteProject = (event, projectButton) => {
@@ -144,7 +151,7 @@ const SideBarProjectUI = (() => {
         let projectId = projectButton.getAttribute('data-project');
 
         if (projectButton.hasAttribute('active')) {
-            MainUI.cleanProjectView();
+            ProjectViewUI.cleanProjectView();
         }
 
         ProjectList.deleteProject(projectId);
@@ -154,7 +161,7 @@ const SideBarProjectUI = (() => {
     };
 
 
-    const initProjectButtons = (project) => {
+    const addProjectButtons = (project) => {
         // Set the new project button attributes and class
         const newProjectButton = document.createElement('button');
         newProjectButton.classList.add('btn-project');
@@ -174,7 +181,7 @@ const SideBarProjectUI = (() => {
 
         // add event listener when clicking on the project
         newProjectButton.addEventListener('click', (event) => {
-            MainUI.openProject(`${project.name}`);
+            ProjectViewUI.openProject(`${project.name}`);
             SideBarProjectUI.setActiveProject(newProjectButton);
         });
 
@@ -190,16 +197,11 @@ const SideBarProjectUI = (() => {
         btnDeleteProject.addEventListener('click', (e) => deleteProject(e, newProjectButton))
     }
 
-    const cleanListProjects = () => {
-        const projectListDiv = document.querySelector('#list-projects');
-            projectListDiv.innerHTML = '';
-    }
-
     return {
         initNavLinkButtons,
         setActiveProject,
         initAddProjectButtons,
-        initProjectButtons,
+        addProjectButtons,
     }
 
 })();
