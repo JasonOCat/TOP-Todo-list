@@ -1,3 +1,7 @@
+:root {
+    --add-task-color : #dd4b39;
+}
+
 .middle-content {
     display: grid;
     grid-template-columns: minmax(305px, 1fr) 4fr;
@@ -7,11 +11,123 @@
 .main-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
+    gap: 15px;
     padding-top: 40px;
-    padding-left: 30px;
+
+    /* the container is in the middle of the page and take 75% of it */
+    width: 75%;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.project-view {
-    width: 75%;
+
+/* START button add task */
+
+img.icon {
+    width: 21px;
 }
+
+#btn-add-task {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 7px;
+    background-color: white;
+    color: grey;
+    border: none;
+    cursor: pointer;
+}
+
+#btn-add-task:hover {
+    color: var(--add-task-color);
+}
+
+
+#btn-add-task:not([active]) {
+    display: none;
+}
+
+/* END button add task */
+
+
+
+/* START form add Task*/
+
+#form-add-task-container {
+    width: 100%;
+}
+
+#form-add-task{
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    padding: 10px 10px;
+}
+
+#form-add-task:focus-within {
+    outline: none; 
+    border-color: grey;
+}
+
+input#input-task-title,
+textarea#input-task-description{
+    outline: none; 
+    border: none;
+}
+
+textarea#input-task-description{
+    resize: vertical;
+    overflow: auto;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#add-task-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 13px;
+    padding-top: 10px;
+}
+
+#btn-form-cancel-task,
+#btn-form-add-task{
+    padding : 8px 11px;
+    border: none;
+    border-radius: 5px;
+    width: 80px;
+    text-align: center;
+}
+
+#btn-form-add-task:not([disabled]) {
+    background-color: var(--not-hover-add-button-color);
+    color: white;
+}
+
+#btn-form-add-task[disabled] {
+    background-color: var(--disabled-add-button-color);
+    color: white;
+}
+
+#btn-form-add-task:hover:not([disabled]) {
+    background-color: var(--hover-add-button-color);
+    cursor: pointer;
+}
+
+#btn-form-cancel-task {
+    background-color: var(--not-active-cancel-button-color);
+    color: var(--font-color);
+    cursor: pointer;
+}
+
+#btn-form-cancel-task:hover {
+    background-color: #b0b0b0;
+}
+
+#form-add-task-container:not([active]) {
+    display: none;
+}
+
+/* END form add Task*/

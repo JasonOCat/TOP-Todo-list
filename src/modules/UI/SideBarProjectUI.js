@@ -24,17 +24,17 @@ const SideBarProjectUI = (() => {
     const initNavLinkButtons = () => {
 
         inboxProjectButton.addEventListener('click', () => {
-            ProjectViewUI.openProject('Inbox');
+            ProjectViewUI.openProject(ProjectList.getInboxProject());
             setActiveProject(inboxProjectButton);
         });
 
         todayProjectButton.addEventListener('click', () => {
-            ProjectViewUI.openProject('Today');
+            ProjectViewUI.openProject(ProjectList.getTodayProject());
             setActiveProject(todayProjectButton);
         });
 
         upcomingProjectButton.addEventListener('click', () => {
-            ProjectViewUI.openProject('Upcoming');
+            ProjectViewUI.openProject(ProjectList.getUpcomingProject());
             setActiveProject(upcomingProjectButton);
         });
     };
@@ -180,8 +180,8 @@ const SideBarProjectUI = (() => {
         `;
 
         // add event listener when clicking on the project
-        newProjectButton.addEventListener('click', (event) => {
-            ProjectViewUI.openProject(`${project.name}`);
+        newProjectButton.addEventListener('click', () => {
+            ProjectViewUI.openProject(project);
             SideBarProjectUI.setActiveProject(newProjectButton);
         });
 

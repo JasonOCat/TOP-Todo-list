@@ -19,9 +19,6 @@ const Project = (projectName, special = false) => {
     }
 
     return {
-
-        addTask,
-
         get id() {
             return _uuid;
         },
@@ -46,6 +43,8 @@ const Project = (projectName, special = false) => {
             return _tasks;
         },
 
+        addTask,
+
     }
 
 }
@@ -54,5 +53,11 @@ const isValidProjectName = (projectName) => {
     return projectName && projectName.trim().length > 0;
 }
 
+const addTaskToProject = (task, project) => {
+    project.tasks.push(task);
+    Storage.saveProjectList();
+}
+
 export default Project;
 export { isValidProjectName };
+export { addTaskToProject };

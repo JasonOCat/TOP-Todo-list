@@ -1,24 +1,123 @@
-
+import Task, { isValidTaskTitle } from '../Task';
+import ProjectList from '../ProjectList';
+import { addTaskToProject } from '../Project';
 
 const ProjectViewUI = (() => {
+    const projectTitle = document.getElementById('project-title');
     const projectViewDiv = document.querySelector(".project-view");
-    
-    const openProject = (projectName) => {
-        projectViewDiv.innerHTML = 
+
+    // Add task buttons elements
+    const btnAddTask = document.getElementById('btn-add-task');
+
+    // Form elements
+    const formAddTask = document.getElementById('form-add-task-container');
+    const btnFormAddTask = document.getElementById('btn-form-add-task');
+    const btnFormCancelAddTask = document.getElementById('btn-form-cancel-task');
+    const inputTaskTitle = document.getElementById('input-task-title');
+    const inputTaskDescription = document.getElementById('input-task-description');
+
+
+    const initAddTaskButton = () => {
+        // Button add Task
+        btnAddTask.addEventListener('click', openAddTaskForm);
+
+        // Form add Task
+        inputTaskTitle.addEventListener('keyup', (e) => handleInputAddTaskTitle(e));
+        btnFormAddTask.addEventListener('click', addTask);
+        btnFormCancelAddTask.addEventListener('click', cancelAddTask);
+    };
+
+    const openAddTaskForm = () => {
+        displayAddTaskForm();
+        hideAddTaskButton();
+    };
+
+    const addTask = () => {
+        // add the Task to the ProjectList and save the new ProjectList with the new task
+        let newTask = Task(inputTaskTitle.value, inputTaskTitle.description);
+        let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
+        console.log( currentProject );
+        addTaskToProject(newTask, currentProject);
+
+        hideAddTaskForm();
+        displayAddTaskButton();
+        clearInputTaskTitle();
+        clearInputTaskDescription();
+    };
+
+    const cancelAddTask = () => {
+        hideAddTaskForm();
+        displayAddTaskButton();
+        clearInputTaskTitle();
+        clearInputTaskDescription();
+        inputTaskDescription.setAttribute('style','');
+    };
+
+    const clearInputTaskTitle = () => {
+        inputTaskTitle.value= '';
+    }
+
+    const clearInputTaskDescription = () => {
+        inputTaskDescription.value = '';
+        inputTaskDescription.style = '';
+    }
+
+    const handleInputAddTaskTitle = (e) => {
+
+        if (isValidTaskTitle(e.target.value) && e.key === 'Enter') {
+        } else if (isValidTaskTitle(e.target.value)) {
+            btnFormAddTask.removeAttribute('disabled');
+        } else {
+            btnFormAddTask.setAttribute('disabled','');
+        }
+    };
+
+
+    /* START HELPERS to display or not button add task, or the form to add a task */
+
+    const displayAddTaskForm = () => {
+        formAddTask.setAttribute('active','');
+    };
+
+    const hideAddTaskButton = () => {
+        btnAddTask.removeAttribute('active');
+    };
+
+    const displayAddTaskButton = () => {
+        btnAddTask.setAttribute('active','');
+    };
+
+    const hideAddTaskForm = () => {
+        formAddTask.removeAttribute('active');
+    };
+
+    /* END HELPERS to display or not button add task, or the form to add a task */
+
+
+    const setCurrentProjectId = (project) => {
+        formAddTask.setAttribute('data-project', project.id);
+    }
+
+
+    const openProject = (project) => {
+        projectTitle.innerHTML = 
         `
-        <h2>${projectName}</h2>
+        <h2>${project.name}</h2>
         `;
+        setCurrentProjectId(project);
     };
 
     const cleanProjectView = () => {
-        projectViewDiv.innerHTML = '';
+        projectTitle.innerHTML = '';
     }
 
     return {
         openProject,
         cleanProjectView,
-    }
+        initAddTaskButton,
+        
+    };
 
 })();
 
-export default ProjectViewUI
+export default ProjectViewUI;

@@ -10,7 +10,8 @@ const MainUI = (() => {
         loadProjects();
         SideBarProjectUI.initNavLinkButtons();
         SideBarProjectUI.initAddProjectButtons();
-        ProjectViewUI.openProject('Inbox');
+        ProjectViewUI.initAddTaskButton();
+        ProjectViewUI.openProject(ProjectList.getInboxProject());
     }
 
     const loadProjects = () => {

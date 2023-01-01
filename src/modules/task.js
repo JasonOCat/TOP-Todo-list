@@ -7,10 +7,6 @@ const Task = (title, description = null, dueDate = null) => {
     let _dueDate = dueDate;
     let _completed = false;
 
-    const isValidTitle = (title) => {
-        return title && title.trim().length > 0;
-    }
-
     const isValidDescription = (description) => {
         return description && description.trim().length > 0;
     }
@@ -20,7 +16,7 @@ const Task = (title, description = null, dueDate = null) => {
         return date !== null && compareAsc(date, dateNow) !== -1 // check if the due date is not in the past
     }
 
-    if (!isValidTitle(title)) {
+    if (!isValidTaskTitle(title)) {
         throw new Error('Title is invalid');
     }
 
@@ -40,7 +36,7 @@ const Task = (title, description = null, dueDate = null) => {
         },
 
         set title(title) {
-            if (!isValidTitle(title)) {
+            if (!isValidTaskTitle(title)) {
                 throw "Please provide a valid string for the title."
             }
 
@@ -89,4 +85,9 @@ const Task = (title, description = null, dueDate = null) => {
      };
 };
 
+const isValidTaskTitle = (title) => {
+    return title && title.trim().length > 0;
+}
+
 export default Task;
+export { isValidTaskTitle };

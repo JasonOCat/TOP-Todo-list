@@ -6,12 +6,7 @@ import './css/sidebar.css';
 
 
 import ProjectList from './modules/ProjectList';
-
-
 import MainUI from './modules/UI/MainUI';
-
-
-
 
 
 ProjectList.projects.forEach(project => {

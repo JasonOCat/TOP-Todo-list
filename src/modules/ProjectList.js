@@ -29,6 +29,22 @@ const ProjectList = (() => {
         _projects = arrProjects;
     }
 
+    const getProjectById = (projectId) => {
+        return _projects.find(project => project.id === projectId);
+    }
+
+    const getTodayProject = () => {
+        return _projects.find(project => project.special && project.name === 'Today')
+    }
+
+    const getInboxProject = () => {
+        return _projects.find(project => project.special && project.name === 'Inbox')
+    }
+
+    const getUpcomingProject = () => {
+        return _projects.find(project => project.special && project.name === 'Upcoming')
+    }
+
     return {
         get projects() {
             return _projects;
@@ -37,6 +53,10 @@ const ProjectList = (() => {
         addProject,
         deleteProject,
         setProjects,
+        getProjectById,
+        getTodayProject,
+        getInboxProject,
+        getUpcomingProject
     }
 
 })();
