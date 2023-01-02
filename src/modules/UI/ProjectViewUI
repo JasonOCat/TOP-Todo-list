@@ -125,6 +125,7 @@ const ProjectViewUI = (() => {
 
     const displayTaskAndItsButtons = (task) => {
         // Set the task button attributes and class
+        const newTaskButtonDiv = document.createElement('div');
         const newTaskButton = document.createElement('button');
         newTaskButton.classList.add('btn-task');
         newTaskButton.setAttribute('data-project',`${task.id}`);
@@ -135,15 +136,25 @@ const ProjectViewUI = (() => {
                 <input type="checkbox">
                 <span>${task.title}</span>
             </div>
-
+            
         `;
 
         // add event listener when clicking on the project
-        newTaskButton.addEventListener('click', () => {
-            //TODO
+        newTaskButton.addEventListener('click', (e) => {
+            handleClickTaskButton(e, task);
         });
 
-        projectViewDiv.appendChild(newTaskButton);
+        newTaskButtonDiv.appendChild(newTaskButton);
+
+        projectViewDiv.appendChild(newTaskButtonDiv);
+    }
+
+    const handleClickTaskButton = (e, task) => {
+        console.log('click on task ' + task.title);
+
+        // hide the Task
+
+        // display the form to update Task
     }
 
     return {
