@@ -161,6 +161,12 @@ const SideBarProjectUI = (() => {
     };
 
 
+    const displayProjectsAndTheirButtons = () => {
+        ProjectList.projects
+            .filter(project => !project.special)
+            .forEach(project => addProjectButtons(project));
+    }
+
     const addProjectButtons = (project) => {
         // Set the new project button attributes and class
         const newProjectButton = document.createElement('button');
@@ -202,6 +208,7 @@ const SideBarProjectUI = (() => {
         setActiveProject,
         initAddProjectButtons,
         addProjectButtons,
+        displayProjectsAndTheirButtons,
     }
 
 })();

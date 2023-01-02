@@ -1,7 +1,8 @@
 import { compareAsc, format, parse } from 'date-fns'
+import { v4 as uuidv4 } from 'uuid';
 
 const Task = (title, description = null, dueDate = null) => {
-
+    let _uuid = uuidv4(); 
     let _title = title;
     let _description = description;
     let _dueDate = dueDate;
@@ -30,6 +31,10 @@ const Task = (title, description = null, dueDate = null) => {
 
     return {
         isPresentOrFutureDate,
+
+        get id() {
+            return _uuid;
+        },
 
         get title() {
             return _title;

@@ -39,6 +39,9 @@ const ProjectViewUI = (() => {
         console.log( currentProject );
         addTaskToProject(newTask, currentProject);
 
+        // display the new task
+        displayTaskAndItsButtons(newTask);
+
         hideAddTaskForm();
         displayAddTaskButton();
         clearInputTaskTitle();
@@ -65,6 +68,7 @@ const ProjectViewUI = (() => {
     const handleInputAddTaskTitle = (e) => {
 
         if (isValidTaskTitle(e.target.value) && e.key === 'Enter') {
+            addTask();
         } else if (isValidTaskTitle(e.target.value)) {
             btnFormAddTask.removeAttribute('disabled');
         } else {
@@ -105,16 +109,49 @@ const ProjectViewUI = (() => {
         <h2>${project.name}</h2>
         `;
         setCurrentProjectId(project);
+        ProjectViewUI.displayProjectTasksAndTheirButtons();
     };
 
     const cleanProjectView = () => {
-        projectTitle.innerHTML = '';
+        projectViewDiv.innerHTML = '';
+    }
+
+
+    const displayProjectTasksAndTheirButtons = () => {
+        cleanProjectView();
+        let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
+        currentProject.tasks.forEach(task => displayTaskAndItsButtons(task));
+    }
+
+    const displayTaskAndItsButtons = (task) => {
+        // Set the task button attributes and class
+        const newTaskButton = document.createElement('button');
+        newTaskButton.classList.add('btn-task');
+        newTaskButton.setAttribute('data-project',`${task.id}`);
+
+        // display the task button to the list of tasks
+        newTaskButton.innerHTML=`
+            <div id="task-button-container">
+                <input type="checkbox">
+                <span>${task.title}</span>
+            </div>
+
+        `;
+
+        // add event listener when clicking on the project
+        newTaskButton.addEventListener('click', () => {
+            //TODO
+        });
+
+        projectViewDiv.appendChild(newTaskButton);
     }
 
     return {
         openProject,
         cleanProjectView,
         initAddTaskButton,
+        displayTaskAndItsButtons,
+        displayProjectTasksAndTheirButtons,
         
     };
 

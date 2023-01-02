@@ -11,16 +11,18 @@ const MainUI = (() => {
         SideBarProjectUI.initNavLinkButtons();
         SideBarProjectUI.initAddProjectButtons();
         ProjectViewUI.initAddTaskButton();
-        ProjectViewUI.openProject(ProjectList.getInboxProject());
+
+        //Open the Inbox window when first loading the website
+        let inboxProject = ProjectList.getInboxProject()
+        ProjectViewUI.openProject(inboxProject);
+
+        // Load the tasks of the Inbox project
+        ProjectViewUI.displayProjectTasksAndTheirButtons();
     }
 
     const loadProjects = () => {
         Storage.retrieveProjectList();
-        ProjectList.projects.forEach( project => {
-            if (!project.special) {
-                SideBarProjectUI.addProjectButtons(project);
-            }
-        });
+        SideBarProjectUI.displayProjectsAndTheirButtons();
     }
 
     initHomePage();

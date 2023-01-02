@@ -8,6 +8,10 @@
 
 }
 
+#project-title {
+    margin-bottom: 10px;
+}
+
 .main-container {
     display: flex;
     flex-direction: column;
@@ -131,3 +135,31 @@ textarea#input-task-description{
 }
 
 /* END form add Task*/
+
+
+/* START Tasks button */
+
+
+.project-view {
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#task-button-container {
+    width:100%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-task {
+    display:flex;
+    width: 100%;
+    background-color: white;
+    border: none;
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+/* END Tasks button */
