@@ -55,6 +55,14 @@ const ProjectViewUI = (() => {
         inputTaskDescription.setAttribute('style','');
     };
 
+    const cancelUpdateTask = () => {
+        hideUpdateTaskForm();
+        // displayAddTaskButton();
+        // clearInputTaskTitle();
+        // clearInputTaskDescription();
+        // inputTaskDescription.setAttribute('style','');
+    };
+
     const clearInputTaskTitle = () => {
         inputTaskTitle.value= '';
         btnFormAddTask.setAttribute('disabled','');
@@ -86,6 +94,12 @@ const ProjectViewUI = (() => {
     const hideAddTaskForm = () => {
         formAddTask.removeAttribute('active');
     };
+
+
+    const hideUpdateTaskForm = () => {
+        closeOpenedUpdateTaskForm();
+    };
+
 
     const hideAddTaskButton = () => {
         btnAddTask.removeAttribute('active');
@@ -131,8 +145,11 @@ const ProjectViewUI = (() => {
     const displayTaskAndItsButtons = (task) => {
         // Set the task button attributes and class
         const newTaskButtonDiv = document.createElement('div');
+        newTaskButtonDiv.classList.add('task-div-container')
+        newTaskButtonDiv.setAttribute('active','');
         const newTaskButton = document.createElement('button');
         newTaskButton.classList.add('btn-task');
+        newTaskButton.setAttribute('active', '');
         newTaskButton.setAttribute('data-task', task.id);
 
         // display the task button to the list of tasks
@@ -144,17 +161,13 @@ const ProjectViewUI = (() => {
             
         `;
 
-        // add event listener when clicking on the project
-        newTaskButton.addEventListener('click', (e) => {
-            handleClickTaskButton(e, task);
-        });
 
         newTaskButtonDiv.appendChild(newTaskButton);
 
         let divUpdateTaskForm = document.createElement('div');
-        divUpdateTaskForm.classList.add("form-add-task-container")
+        divUpdateTaskForm.classList.add("form-update-task-container")
         divUpdateTaskForm.innerHTML = `
-            <form class="form-update-task" data-task="">
+            <form class="form-update-task">
                 <input class="input-update-task-title" type="text" placeholder="Name of the task">
                 <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
             </form>
@@ -163,18 +176,29 @@ const ProjectViewUI = (() => {
                 <button class="btn-form-update-task" disabled>Save</button>
             </div>
         `
+
+        // add event listener when clicking on the project
+        newTaskButton.addEventListener('click', () => {
+
+            // hide the Task button
+            newTaskButton.removeAttribute('active');
+
+            // display the form to update the Task
+            divUpdateTaskForm.setAttribute('active','');
+        });
+
+
         newTaskButton.insertAdjacentElement('afterend', divUpdateTaskForm)
 
         projectViewDiv.appendChild(newTaskButtonDiv);
 
     }
 
-    const handleClickTaskButton = (e, task) => {
-        console.log('click on task ' + task.title);
+    const closeOpenedUpdateTaskForm = () => {
+        const currentTaskForm = document.querySelector('.form-update-task-container[active=""]');
+        console.log(currentTaskForm);
 
-        // hide the Task
 
-        // display the form to update Task
     }
 
     return {
