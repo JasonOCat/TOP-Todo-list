@@ -57,6 +57,7 @@ const ProjectViewUI = (() => {
 
     const clearInputTaskTitle = () => {
         inputTaskTitle.value= '';
+        btnFormAddTask.setAttribute('disabled','');
     }
 
     const clearInputTaskDescription = () => {
@@ -82,6 +83,10 @@ const ProjectViewUI = (() => {
         formAddTask.setAttribute('active','');
     };
 
+    const hideAddTaskForm = () => {
+        formAddTask.removeAttribute('active');
+    };
+
     const hideAddTaskButton = () => {
         btnAddTask.removeAttribute('active');
     };
@@ -90,9 +95,10 @@ const ProjectViewUI = (() => {
         btnAddTask.setAttribute('active','');
     };
 
-    const hideAddTaskForm = () => {
-        formAddTask.removeAttribute('active');
-    };
+    const hideProjectTitle = () => {
+        projectTitle.innerHTML = '';
+    }
+
 
     /* END HELPERS to display or not button add task, or the form to add a task */
 
@@ -148,13 +154,13 @@ const ProjectViewUI = (() => {
         let divUpdateTaskForm = document.createElement('div');
         divUpdateTaskForm.classList.add("form-add-task-container")
         divUpdateTaskForm.innerHTML = `
-            <form id="form-add-task" data-task="">
-                <input id="input-task-title" type="text" placeholder="Name of the task">
-                <textarea id="input-task-description" rows="3" placeholder="Description"></textarea>
+            <form class="form-update-task" data-task="">
+                <input class="input-update-task-title" type="text" placeholder="Name of the task">
+                <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
             </form>
-            <div id="add-task-buttons">
-                <button id="btn-form-cancel-task"> Cancel</button>
-                <button id="btn-form-add-task" disabled> Save</button>
+            <div class="update-task-buttons">
+                <button class="btn-form-cancel-update-task">Cancel</button>
+                <button class="btn-form-update-task" disabled>Save</button>
             </div>
         `
         newTaskButton.insertAdjacentElement('afterend', divUpdateTaskForm)
@@ -177,6 +183,13 @@ const ProjectViewUI = (() => {
         initAddTaskButton,
         displayTaskAndItsButtons,
         displayProjectTasksAndTheirButtons,
+        displayAddTaskForm,
+        hideAddTaskForm,
+        displayAddTaskButton,
+        clearInputTaskTitle,
+        clearInputTaskDescription,
+        hideAddTaskButton,
+        hideProjectTitle,
         
     };
 

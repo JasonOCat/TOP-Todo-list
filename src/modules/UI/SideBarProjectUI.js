@@ -152,11 +152,12 @@ const SideBarProjectUI = (() => {
 
         if (projectButton.hasAttribute('active')) {
             ProjectViewUI.cleanProjectView();
+            ProjectViewUI.hideAddTaskButton();
+            ProjectViewUI.hideProjectTitle();
         }
 
         ProjectList.deleteProject(projectId);
-        cleanListProjects();
-        MainUI.loadProjects();
+        projectButton.remove();
 
     };
 
@@ -188,7 +189,12 @@ const SideBarProjectUI = (() => {
         // add event listener when clicking on the project
         newProjectButton.addEventListener('click', () => {
             ProjectViewUI.openProject(project);
+            ProjectViewUI.hideAddTaskForm();
+            ProjectViewUI.displayAddTaskButton();
+            ProjectViewUI.clearInputTaskTitle();
+            ProjectViewUI.clearInputTaskDescription();
             SideBarProjectUI.setActiveProject(newProjectButton);
+
         });
 
         projectListDiv.appendChild(newProjectButton);

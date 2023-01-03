@@ -62,7 +62,8 @@ img.icon {
     width: 100%;
 }
 
-#form-add-task{
+#form-add-task,
+.form-update-task{
     display: flex;
     flex-direction: column;
     gap: 15px;
@@ -78,18 +79,22 @@ img.icon {
 }
 
 input#input-task-title,
-textarea#input-task-description{
+input.input-update-task-title,
+textarea#input-task-description,
+textarea.input-update-task-description{
     outline: none; 
     border: none;
 }
 
-textarea#input-task-description{
+textarea#input-task-description,
+textarea.input-update-task-description {
     resize: vertical;
     overflow: auto;
     font-family: Arial, Helvetica, sans-serif;
 }
 
-#add-task-buttons {
+#add-task-buttons,
+.update-task-buttons {
     display: flex;
     justify-content: flex-end;
     gap: 13px;
@@ -97,7 +102,9 @@ textarea#input-task-description{
 }
 
 #btn-form-cancel-task,
-#btn-form-add-task{
+#btn-form-add-task,
+.btn-form-update-task,
+.btn-form-cancel-update-task{
     padding : 8px 11px;
     border: none;
     border-radius: 5px;
@@ -105,28 +112,33 @@ textarea#input-task-description{
     text-align: center;
 }
 
-#btn-form-add-task:not([disabled]) {
+#btn-form-add-task:not([disabled]),
+.btn-form-update-task:not([disabled]) {
     background-color: var(--not-hover-add-button-color);
     color: white;
 }
 
-#btn-form-add-task[disabled] {
+#btn-form-add-task[disabled],
+.btn-form-update-task[disabled] {
     background-color: var(--disabled-add-button-color);
     color: white;
 }
 
-#btn-form-add-task:hover:not([disabled]) {
+#btn-form-add-task:hover:not([disabled],
+.btn-form-update-task:hover:not([disabled])) {
     background-color: var(--hover-add-button-color);
     cursor: pointer;
 }
 
-#btn-form-cancel-task {
+#btn-form-cancel-task,
+.btn-form-cancel-update-task  {
     background-color: var(--not-active-cancel-button-color);
     color: var(--font-color);
     cursor: pointer;
 }
 
-#btn-form-cancel-task:hover {
+#btn-form-cancel-task:hover,
+.btn-form-cancel-update-task:hover  {
     background-color: #b0b0b0;
 }
 
