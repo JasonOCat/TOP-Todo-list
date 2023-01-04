@@ -1,1 +1,102 @@
-<!doctype html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>TOP - TODO list</title><script defer="defer" src="main.cf7e0c524404a93fb212.js"></script></head><body><div class="container"><div class="header"><h1>TODO List</h1></div><div class="middle-content"><div class="sidebar"><ul class="first-links"><li><button class="btn-project" id="btn-inbox-project" data-project="Inbox" active><img src="images/inbox.b83980d11de338f945cb.png" alt="Inbox"> Inbox</button></li><li><button class="btn-project" id="btn-today-project" data-project="Today"><img src="images/today.3cd8a8cec5c869d0ff6a.png" alt="Today"> Today</button></li><li><button class="btn-project" id="btn-upcoming-project" data-project="Upcoming"><img src="images/upcoming.272dcfb5eed3b56ef14b.png" alt="Upcoming"> Upcoming</button></li></ul><h2>Projects</h2><ul class="second-links"><div id="list-projects"></div><div id="add-project-form"><div><input class="input-project" placeholder="Name of the new Project"></div><div id="add-project-buttons"><button type="button" class="btn-add" disabled="disabled">Add</button> <button type="button" class="btn-cancel">Cancel</button></div></div><button class="btn-project" id="btn-add-project" active><img src="images/plus.a3008067556097690bfa.png" alt="Upcoming"> Add a project</button></ul></div><div class="main-container"><div id="project-title"></div><div class="project-view"></div><div id="form-add-task-container"><form id="form-add-task" data-project=""><input id="input-task-title" placeholder="Name of the task"> <textarea id="input-task-description" rows="3" placeholder="Description"></textarea></form><div id="add-task-buttons"><button id="btn-form-cancel-task">Cancel</button> <button id="btn-form-add-task" disabled="disabled">Add task</button></div></div><button id="btn-add-task" active><img class="icon" src="images/plus.a3008067556097690bfa.png" alt="Upcoming"> <span>Add a task</span></button></div></div><div class="footer"><p>Copyright © Jason, TODO List 2022</p></div></div></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TOP - TODO list</title>
+<script defer src="main.52513bdf5b7f0f11986a.js"></script></head>
+
+<body>
+    <div class="container">
+
+        <div class="header">
+            <h1>TODO List</h1>
+        </div>
+
+
+
+        <div class="middle-content">
+
+
+            <div class="sidebar">
+                <ul class="first-links">
+
+                    <li>
+                        <button class="btn-project" id="btn-inbox-project" data-project="Inbox" active>
+                            <img src="images/inbox.b83980d11de338f945cb.png" alt="Inbox"> Inbox
+                        </button>
+                    </li>
+              
+                    <li>
+                        <button class="btn-project" id="btn-today-project" data-project="Today">
+                            <img src="images/today.3cd8a8cec5c869d0ff6a.png" alt="Today"> Today
+                        </button>
+                    </li>
+
+                    <li>
+                        <button class="btn-project" id="btn-upcoming-project" data-project="Upcoming">
+                            <img src="images/upcoming.272dcfb5eed3b56ef14b.png" alt="Upcoming"> Upcoming
+                        </button>
+                    </li>
+                </ul>
+
+
+                <h2>Projects</h2>
+                    <ul class="second-links" >
+
+                        <div id="list-projects">
+                        </div>
+
+                        <div id="add-project-form">
+                            <div>
+                                <input class="input-project" type="text" placeholder="Name of the new Project">
+                            </div>
+                            <div id="add-project-buttons">
+                                <button type="button" class="btn-add" disabled>Add</button>
+                                <button type="button" class="btn-cancel">Cancel</button>
+                            </div>
+
+
+                        </div>
+                        <button class="btn-project" id="btn-add-project" active>
+                            <img src="images/plus.a3008067556097690bfa.png" alt="Upcoming"> Add a project
+                        </button>
+
+                    </ul>
+            </div>
+
+            <div class="main-container">
+
+                <div id="project-title">
+                </div>
+
+                <div class="project-view">
+                </div>
+
+                <div id="form-add-task-container">
+                    <form id="form-add-task" data-project="">
+                        <input id="input-task-title" type="text" placeholder="Name of the task">
+                        <textarea id="input-task-description" rows="3" placeholder="Description"></textarea>
+                    </form>
+                    <div id="add-task-buttons">
+                        <button id="btn-form-cancel-task"> Cancel</button>
+                        <button id="btn-form-add-task" disabled> Add task</button>
+                    </div>
+                </div>
+
+                <button id="btn-add-task" active>
+                    <img class="icon" src="images/plus.a3008067556097690bfa.png" alt="Upcoming"> <span> Add a task</span>
+                </button>
+
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Copyright © Jason, TODO List 2022</p>
+        </div>
+    </div>
+</body>
+
+</html>
