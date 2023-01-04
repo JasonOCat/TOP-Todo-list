@@ -1,6 +1,7 @@
 import Task, { isValidTaskTitle } from '../Task';
 import ProjectList from '../ProjectList';
 import { addTaskToProject } from '../Project';
+import Storage from '../Storage';
 
 const ProjectViewUI = (() => {
     const projectTitle = document.getElementById('project-title');
@@ -34,7 +35,7 @@ const ProjectViewUI = (() => {
 
     const addTask = () => {
         // add the Task to the ProjectList and save the new ProjectList with the new task
-        let newTask = Task(inputTaskTitle.value, inputTaskTitle.description);
+        let newTask = Task(inputTaskTitle.value, inputTaskDescription.value);
         let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
         addTaskToProject(newTask, currentProject);
 
@@ -55,8 +56,9 @@ const ProjectViewUI = (() => {
         inputTaskDescription.setAttribute('style','');
     };
 
-    const cancelUpdateTask = () => {
-        hideUpdateTaskForm();
+    const cancelUpdateTask = (e, divUpdateTaskForm) => {
+
+        divUpdateTaskForm.remove('active','');
         // displayAddTaskButton();
         // clearInputTaskTitle();
         // clearInputTaskDescription();
@@ -93,11 +95,6 @@ const ProjectViewUI = (() => {
 
     const hideAddTaskForm = () => {
         formAddTask.removeAttribute('active');
-    };
-
-
-    const hideUpdateTaskForm = () => {
-        closeOpenedUpdateTaskForm();
     };
 
 
@@ -155,8 +152,11 @@ const ProjectViewUI = (() => {
         // display the task button to the list of tasks
         newTaskButton.innerHTML=`
             <div class="task-button-container">
+
                 <input type="checkbox">
                 <span>${task.title}</span>
+
+                <span class="task-description">${task.description ? "ge" : "ggr"}</span>
             </div>
             
         `;
@@ -173,33 +173,72 @@ const ProjectViewUI = (() => {
             </form>
             <div class="update-task-buttons">
                 <button class="btn-form-cancel-update-task">Cancel</button>
-                <button class="btn-form-update-task" disabled>Save</button>
+                <button class="btn-form-update-task">Save</button>
             </div>
         `
 
-        // add event listener when clicking on the project
+        // when clicking on the task
         newTaskButton.addEventListener('click', () => {
-
             // hide the Task button
             newTaskButton.removeAttribute('active');
-
             // display the form to update the Task
             divUpdateTaskForm.setAttribute('active','');
+
+            // in the update form, fill the title and description of the task
+            const inputUpdateTitle = divUpdateTaskForm.querySelector('.input-update-task-title');
+            const inputUpdateDescription = divUpdateTaskForm.querySelector('.input-update-task-description');
+
+            inputUpdateTitle.value = task.title;
+            inputUpdateDescription.value = task.description;
+            inputUpdateTitle.focus();
         });
 
 
-        newTaskButton.insertAdjacentElement('afterend', divUpdateTaskForm)
+        // add and cancel update task buttons
+        initCancelAndSaveTaskButtons(divUpdateTaskForm, newTaskButton, task);
+
+        newTaskButton.insertAdjacentElement('afterend', divUpdateTaskForm);
 
         projectViewDiv.appendChild(newTaskButtonDiv);
 
     }
 
-    const closeOpenedUpdateTaskForm = () => {
-        const currentTaskForm = document.querySelector('.form-update-task-container[active=""]');
-        console.log(currentTaskForm);
+    const initCancelAndSaveTaskButtons = (divUpdateTaskForm, taskButton, task) => {
+        const inputUpdateTitle = divUpdateTaskForm.querySelector('.input-update-task-title');
+        const inputUpdateDescription = divUpdateTaskForm.querySelector('.input-update-task-description');
+        const cancelUpdateButton = divUpdateTaskForm.querySelector('.btn-form-cancel-update-task');
+        const saveUpdateButton = divUpdateTaskForm.querySelector('.btn-form-update-task');
+        const buttonTaskName = taskButton.querySelector('span');
 
+        // Cancel update
+        cancelUpdateButton.addEventListener('click', () => {
+            divUpdateTaskForm.removeAttribute('active','');
+            taskButton.setAttribute('active','');
+            saveUpdateButton.removeAttribute('disabled');
+        })
+
+        // Listener when updating title of the 
+
+        inputUpdateTitle.addEventListener('keyup', (e) => {
+            if (isValidTaskTitle(e.target.value)) {
+                saveUpdateButton.removeAttribute('disabled');
+            } else {
+                saveUpdateButton.setAttribute('disabled','');
+            }
+        })
+
+        // Save update
+        saveUpdateButton.addEventListener('click', () => {
+            task.title = inputUpdateTitle.value;
+            task.description = inputUpdateDescription.value;
+            divUpdateTaskForm.removeAttribute('active');
+            taskButton.setAttribute('active', '');
+            buttonTaskName.textContent = task.title;
+            Storage.saveProjectList();
+        })
 
     }
+
 
     return {
         openProject,

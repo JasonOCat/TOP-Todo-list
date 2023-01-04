@@ -1,5 +1,6 @@
 import { compareAsc, format, parse } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid';
+import Storage from './Storage';
 
 const Task = (title, description = null, dueDate = null) => {
     let _uuid = uuidv4(); 
@@ -44,7 +45,6 @@ const Task = (title, description = null, dueDate = null) => {
             if (!isValidTaskTitle(title)) {
                 throw "Please provide a valid string for the title."
             }
-
             _title = title;
         },
 
