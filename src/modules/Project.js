@@ -1,5 +1,6 @@
 import Storage from './Storage';
 import { v4 as uuidv4 } from 'uuid';
+import { it } from 'date-fns/locale';
 
 
 const Project = (projectName, special = false) => {
@@ -58,6 +59,15 @@ const addTaskToProject = (task, project) => {
     Storage.saveProjectList();
 }
 
+const removeTaskFromProject = (task, project) => {
+    const indexTaskToDelete = project.tasks.findIndex(it => it.id === task.id);
+    if (indexTaskToDelete === -1) {
+        throw Error(`The task id ${task.id} doesn't exist`);
+    }
+
+    project.tasks.splice(indexTaskToDelete, 1);
+    Storage.saveProjectList();
+}
+
 export default Project;
-export { isValidProjectName };
-export { addTaskToProject };
+export { addTaskToProject, removeTaskFromProject, isValidProjectName };

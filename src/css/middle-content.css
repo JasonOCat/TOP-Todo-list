@@ -206,4 +206,5 @@ textarea.input-update-task-description {
 .btn-task:not([active]) {
     display: none;
 }
+
 /* END Tasks button */

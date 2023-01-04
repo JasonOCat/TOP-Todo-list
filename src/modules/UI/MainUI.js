@@ -17,7 +17,7 @@ const MainUI = (() => {
         ProjectViewUI.openProject(inboxProject);
 
         // Load the tasks of the Inbox project
-        ProjectViewUI.displayProjectTasksAndTheirButtons();
+        ProjectViewUI.initProjectTasksAndTheirButtons();
     }
 
     const loadProjects = () => {

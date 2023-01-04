@@ -1,6 +1,6 @@
 import Task, { isValidTaskTitle } from '../Task';
 import ProjectList from '../ProjectList';
-import { addTaskToProject } from '../Project';
+import Project, { addTaskToProject, removeTaskFromProject } from '../Project';
 import Storage from '../Storage';
 
 const ProjectViewUI = (() => {
@@ -16,6 +16,12 @@ const ProjectViewUI = (() => {
     const btnFormCancelAddTask = document.getElementById('btn-form-cancel-task');
     const inputTaskTitle = document.getElementById('input-task-title');
     const inputTaskDescription = document.getElementById('input-task-description');
+
+    const getCurrentProject = () => {
+        let currentProjectId = projectTitle.getAttribute('data-project');
+        return ProjectList.getProjectById(currentProjectId);
+
+    }
 
 
     const initAddTaskButton = () => {
@@ -34,6 +40,14 @@ const ProjectViewUI = (() => {
     };
 
     const addTask = () => {
+        if (!isValidTaskTitle(inputTaskTitle.value)) {
+            // case when the add task form is open and the user click on another task to update it
+            hideAddTaskForm();
+            displayAddTaskButton();
+            clearInputTaskTitle();
+            clearInputTaskDescription();
+            return;
+        }
         // add the Task to the ProjectList and save the new ProjectList with the new task
         let newTask = Task(inputTaskTitle.value, inputTaskDescription.value);
         let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
@@ -54,15 +68,6 @@ const ProjectViewUI = (() => {
         clearInputTaskTitle();
         clearInputTaskDescription();
         inputTaskDescription.setAttribute('style','');
-    };
-
-    const cancelUpdateTask = (e, divUpdateTaskForm) => {
-
-        divUpdateTaskForm.remove('active','');
-        // displayAddTaskButton();
-        // clearInputTaskTitle();
-        // clearInputTaskDescription();
-        // inputTaskDescription.setAttribute('style','');
     };
 
     const clearInputTaskTitle = () => {
@@ -120,12 +125,13 @@ const ProjectViewUI = (() => {
 
 
     const openProject = (project) => {
+        projectTitle.setAttribute('data-project', project.id);
         projectTitle.innerHTML = 
         `
         <h2>${project.name}</h2>
         `;
         setCurrentProjectId(project);
-        ProjectViewUI.displayProjectTasksAndTheirButtons();
+        initProjectTasksAndTheirButtons();
     };
 
     const cleanProjectView = () => {
@@ -133,7 +139,7 @@ const ProjectViewUI = (() => {
     }
 
 
-    const displayProjectTasksAndTheirButtons = () => {
+    const initProjectTasksAndTheirButtons = () => {
         cleanProjectView();
         let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
         currentProject.tasks.forEach(task => displayTaskAndItsButtons(task));
@@ -155,7 +161,7 @@ const ProjectViewUI = (() => {
 
 
                 <div class="task-button-sub-container">
-                    <input type="checkbox">
+                    <input class="checkbox-task-done" type="checkbox">
                     <span class="task-title">${task.title}</span>
                 </div>
 
@@ -186,6 +192,10 @@ const ProjectViewUI = (() => {
         newTaskButton.addEventListener('click', () => {
             // hide the Task button
             newTaskButton.removeAttribute('active');
+
+            //hide the add task form if it was open and save the new task if it's valid
+            addTask();
+
             // display the form to update the Task
             divUpdateTaskForm.setAttribute('active','');
 
@@ -202,11 +212,29 @@ const ProjectViewUI = (() => {
         // add and cancel update task buttons
         initCancelAndSaveTaskButtons(divUpdateTaskForm, newTaskButton, task);
 
+        //checkbox 
+        initCheckboxTaskDone(newTaskButtonDiv, task);
+
+
+
         newTaskButton.insertAdjacentElement('afterend', divUpdateTaskForm);
 
         projectViewDiv.appendChild(newTaskButtonDiv);
 
     }
+
+    const initCheckboxTaskDone = (newTaskButtonDiv, task) => {
+        const checkboxTaskDone = newTaskButtonDiv.querySelector('.checkbox-task-done');
+        
+
+        checkboxTaskDone.addEventListener('click', (e) => {
+            e.stopPropagation();
+            removeTaskFromProject(task, getCurrentProject());
+            newTaskButtonDiv.remove();
+            Storage.saveProjectList();
+
+        })
+    };
 
     const initCancelAndSaveTaskButtons = (divUpdateTaskForm, taskButton, task) => {
         const inputUpdateTitle = divUpdateTaskForm.querySelector('.input-update-task-title');
@@ -252,7 +280,7 @@ const ProjectViewUI = (() => {
         cleanProjectView,
         initAddTaskButton,
         displayTaskAndItsButtons,
-        displayProjectTasksAndTheirButtons,
+        initProjectTasksAndTheirButtons,
         displayAddTaskForm,
         hideAddTaskForm,
         displayAddTaskButton,
