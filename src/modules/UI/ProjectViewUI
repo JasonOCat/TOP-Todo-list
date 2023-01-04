@@ -153,10 +153,15 @@ const ProjectViewUI = (() => {
         newTaskButton.innerHTML=`
             <div class="task-button-container">
 
-                <input type="checkbox">
-                <span>${task.title}</span>
 
-                <span class="task-description">${task.description ? "ge" : "ggr"}</span>
+                <div class="task-button-sub-container">
+                    <input type="checkbox">
+                    <span class="task-title">${task.title}</span>
+                </div>
+
+                <span class="task-description">
+                    ${task.description}
+                </span>
             </div>
             
         `;
@@ -208,8 +213,9 @@ const ProjectViewUI = (() => {
         const inputUpdateDescription = divUpdateTaskForm.querySelector('.input-update-task-description');
         const cancelUpdateButton = divUpdateTaskForm.querySelector('.btn-form-cancel-update-task');
         const saveUpdateButton = divUpdateTaskForm.querySelector('.btn-form-update-task');
-        const buttonTaskName = taskButton.querySelector('span');
-
+        const spanTaskTitle = taskButton.querySelector('span.task-title');
+        const spanTaskDescription = taskButton.querySelector('span.task-description');
+        
         // Cancel update
         cancelUpdateButton.addEventListener('click', () => {
             divUpdateTaskForm.removeAttribute('active','');
@@ -233,7 +239,8 @@ const ProjectViewUI = (() => {
             task.description = inputUpdateDescription.value;
             divUpdateTaskForm.removeAttribute('active');
             taskButton.setAttribute('active', '');
-            buttonTaskName.textContent = task.title;
+            spanTaskTitle.textContent = task.title;
+            spanTaskDescription.textContent = task.description;
             Storage.saveProjectList();
         })
 

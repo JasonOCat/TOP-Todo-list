@@ -167,20 +167,40 @@ textarea.input-update-task-description {
     gap: 10px;
 }
 
-.task-button-container {
+.task-button-container
+ {
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+.task-button-sub-container
+ {
     width:100%;
     display: flex;
     gap: 10px;
-    align-items: center;
+
 }
 
 .btn-task {
-    display:flex;
     width: 100%;
     background-color: white;
     border: none;
     border-bottom: 1px solid #f0f0f0;
     padding-bottom: 10px;
+}
+
+.task-description {
+    text-align: left;
+    width: 100%;
+    padding-left: 23px;
+    color: grey;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .btn-task:not([active]) {

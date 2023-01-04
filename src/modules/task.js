@@ -9,9 +9,7 @@ const Task = (title, description = null, dueDate = null) => {
     let _dueDate = dueDate;
     let _completed = false;
 
-    const isValidDescription = (description) => {
-        return description && description.trim().length > 0;
-    }
+
 
     const isPresentOrFutureDate = (date) => {
         let dateNow = parse(format(new Date(),"dd/MM/yyyy"), "dd/MM/yyyy", new Date());
@@ -22,7 +20,8 @@ const Task = (title, description = null, dueDate = null) => {
         throw new Error('Title is invalid');
     }
 
-    if (description !== null && !isValidDescription(description)) {
+    if (description && !isValidDescription(description)) {
+        console.log(description);
         throw new Error('Description is invalid');
     }
 
@@ -94,5 +93,9 @@ const isValidTaskTitle = (title) => {
     return title && title.trim().length > 0;
 }
 
+const isValidDescription = (description) => {
+    return description && description.trim().length > 0;
+}
+
 export default Task;
-export { isValidTaskTitle };
+export { isValidTaskTitle, isValidDescription };
