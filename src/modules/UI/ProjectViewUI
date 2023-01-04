@@ -160,7 +160,7 @@ const ProjectViewUI = (() => {
                 </div>
 
                 <span class="task-description">
-                    ${task.description}
+                    ${task.description ? task.description : ""}
                 </span>
             </div>
             
