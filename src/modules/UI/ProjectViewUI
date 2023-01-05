@@ -1,6 +1,6 @@
 import Task, { isValidTaskTitle } from '../Task';
 import ProjectList from '../ProjectList';
-import Project, { addTaskToProject, removeTaskFromProject } from '../Project';
+import Project, { addTaskToProject, removeTaskFromProject, getTaskById } from '../Project';
 import Storage from '../Storage';
 
 const ProjectViewUI = (() => {
@@ -60,6 +60,29 @@ const ProjectViewUI = (() => {
         displayAddTaskButton();
         clearInputTaskTitle();
         clearInputTaskDescription();
+    };
+
+    const updateOpenedTask = (btnTask, openedUpdateTaskForm) => {
+        // get the closest input of the opened task
+        let inputTaskTitle = btnTask.nextSibling.querySelector('.input-update-task-title');
+        let inputTaskDescription = btnTask.nextSibling.querySelector('.input-update-task-description');
+        if (isValidTaskTitle(inputTaskTitle.value)) {
+            // save the opened task
+            let taskToUpdate = getTaskById(btnTask.getAttribute('data-task'), getCurrentProject());
+            taskToUpdate.title = inputTaskTitle.value;
+            taskToUpdate.description = inputTaskDescription.value;
+
+            let spanTitle = btnTask.querySelector('span.task-title') 
+            let spanDescription = btnTask.querySelector('span.task-description') 
+
+            spanTitle.textContent = taskToUpdate.title;
+            spanDescription.textContent = taskToUpdate.description;
+            Storage.saveProjectList();
+        }
+
+        openedUpdateTaskForm.removeAttribute('active');
+        btnTask.setAttribute('active', '');
+
     };
 
     const cancelAddTask = () => {
@@ -196,6 +219,15 @@ const ProjectViewUI = (() => {
             //hide the add task form if it was open and save the new task if it's valid
             addTask();
 
+            //if an update form was already open we save the update if it's valid
+            let openedUpdateTaskForm = document.querySelector('.form-update-task-container[active]')
+            if (openedUpdateTaskForm ) {
+                // previous element contains the button task
+                let btnTask = openedUpdateTaskForm.previousElementSibling;
+                updateOpenedTask(btnTask, openedUpdateTaskForm);
+            }
+
+
             // display the form to update the Task
             divUpdateTaskForm.setAttribute('active','');
 
@@ -251,7 +283,7 @@ const ProjectViewUI = (() => {
             saveUpdateButton.removeAttribute('disabled');
         })
 
-        // Listener when updating title of the 
+        // Listener when updating title of the description
 
         inputUpdateTitle.addEventListener('keyup', (e) => {
             if (isValidTaskTitle(e.target.value)) {

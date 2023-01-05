@@ -52,10 +52,6 @@ const Task = (title, description = null, dueDate = null) => {
         },
 
         set description(description) {
-            if (!isValidDescription(description)) {
-                throw "Please provide a valid string for the description."
-            }
-
             _description= description;
         },
 

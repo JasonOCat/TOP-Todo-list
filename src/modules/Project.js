@@ -69,5 +69,9 @@ const removeTaskFromProject = (task, project) => {
     Storage.saveProjectList();
 }
 
+const getTaskById = (taskId, project) => {
+    return project.tasks.find(task => task.id === taskId);
+}
+
 export default Project;
-export { addTaskToProject, removeTaskFromProject, isValidProjectName };
+export { addTaskToProject, removeTaskFromProject, isValidProjectName, getTaskById };
