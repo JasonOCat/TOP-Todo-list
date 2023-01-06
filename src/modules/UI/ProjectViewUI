@@ -35,8 +35,19 @@ const ProjectViewUI = (() => {
     };
 
     const openAddTaskForm = () => {
+        saveAndCloseOpenedTask();
         displayAddTaskForm();
         hideAddTaskButton();
+    };
+
+    const saveAndCloseOpenedTask = () => {
+        //if an update form was already open we save the update if it's valid
+        let openedUpdateTaskForm = document.querySelector('.form-update-task-container[active]')
+        if (openedUpdateTaskForm ) {
+            // previous element contains the button task
+            let btnTask = openedUpdateTaskForm.previousElementSibling;
+            updateOpenedTask(btnTask, openedUpdateTaskForm);
+        }      
     };
 
     const addTask = () => {
@@ -104,8 +115,9 @@ const ProjectViewUI = (() => {
     }
 
     const handleInputAddTaskTitle = (e) => {
-
+        console.log("ge");
         if (isValidTaskTitle(e.target.value) && e.key === 'Enter') {
+            e.preventDefault();
             addTask();
         } else if (isValidTaskTitle(e.target.value)) {
             btnFormAddTask.removeAttribute('disabled');
@@ -220,12 +232,7 @@ const ProjectViewUI = (() => {
             addTask();
 
             //if an update form was already open we save the update if it's valid
-            let openedUpdateTaskForm = document.querySelector('.form-update-task-container[active]')
-            if (openedUpdateTaskForm ) {
-                // previous element contains the button task
-                let btnTask = openedUpdateTaskForm.previousElementSibling;
-                updateOpenedTask(btnTask, openedUpdateTaskForm);
-            }
+            saveAndCloseOpenedTask();
 
 
             // display the form to update the Task
