@@ -29,7 +29,7 @@ const ProjectViewUI = (() => {
         btnAddTask.addEventListener('click', openAddTaskForm);
 
         // Form add Task
-        inputTaskTitle.addEventListener('keyup', (e) => handleInputAddTaskTitle(e));
+        inputTaskTitle.addEventListener('keyup', handleInputAddTaskTitle);
         btnFormAddTask.addEventListener('click', addTask);
         btnFormCancelAddTask.addEventListener('click', cancelAddTask);
     };
@@ -115,9 +115,8 @@ const ProjectViewUI = (() => {
     }
 
     const handleInputAddTaskTitle = (e) => {
-        console.log("ge");
         if (isValidTaskTitle(e.target.value) && e.key === 'Enter') {
-            e.preventDefault();
+            
             addTask();
         } else if (isValidTaskTitle(e.target.value)) {
             btnFormAddTask.removeAttribute('disabled');
