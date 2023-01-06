@@ -212,10 +212,10 @@ const ProjectViewUI = (() => {
         let divUpdateTaskForm = document.createElement('div');
         divUpdateTaskForm.classList.add("form-update-task-container")
         divUpdateTaskForm.innerHTML = `
-            <form class="form-update-task">
+            <div class="form-update-task">
                 <input class="input-update-task-title" type="text" placeholder="Name of the task">
                 <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
-            </form>
+            </div>
             <div class="update-task-buttons">
                 <button class="btn-form-cancel-update-task">Cancel</button>
                 <button class="btn-form-update-task">Save</button>
@@ -289,10 +289,22 @@ const ProjectViewUI = (() => {
             saveUpdateButton.removeAttribute('disabled');
         })
 
-        // Listener when updating title of the description
+        // Listener when updating title or the description
+
+        const updateTask = () => {
+            task.title = inputUpdateTitle.value;
+            task.description = inputUpdateDescription.value;
+            divUpdateTaskForm.removeAttribute('active');
+            taskButton.setAttribute('active', '');
+            spanTaskTitle.textContent = task.title;
+            spanTaskDescription.textContent = task.description;
+            Storage.saveProjectList();           
+        }
 
         inputUpdateTitle.addEventListener('keyup', (e) => {
-            if (isValidTaskTitle(e.target.value)) {
+            if (isValidTaskTitle(e.target.value) && e.key === 'Enter') {
+                updateTask();
+            } else if (isValidTaskTitle(e.target.value)) {
                 saveUpdateButton.removeAttribute('disabled');
             } else {
                 saveUpdateButton.setAttribute('disabled','');
@@ -301,14 +313,10 @@ const ProjectViewUI = (() => {
 
         // Save update
         saveUpdateButton.addEventListener('click', () => {
-            task.title = inputUpdateTitle.value;
-            task.description = inputUpdateDescription.value;
-            divUpdateTaskForm.removeAttribute('active');
-            taskButton.setAttribute('active', '');
-            spanTaskTitle.textContent = task.title;
-            spanTaskDescription.textContent = task.description;
-            Storage.saveProjectList();
+            updateTask();
         })
+
+
 
     }
 
