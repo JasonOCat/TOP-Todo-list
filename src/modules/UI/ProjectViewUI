@@ -3,6 +3,10 @@ import ProjectList from '../ProjectList';
 import Project, { addTaskToProject, removeTaskFromProject, getTaskById } from '../Project';
 import Storage from '../Storage';
 
+import { format, compareAsc } from 'date-fns';
+
+
+
 const ProjectViewUI = (() => {
     const projectTitle = document.getElementById('project-title');
     const projectViewDiv = document.querySelector(".project-view");
@@ -209,12 +213,19 @@ const ProjectViewUI = (() => {
 
         newTaskButtonDiv.appendChild(newTaskButton);
 
+        let dateNow = format(new Date(), 'yyyy-MM-dd')
+
         let divUpdateTaskForm = document.createElement('div');
         divUpdateTaskForm.classList.add("form-update-task-container")
         divUpdateTaskForm.innerHTML = `
             <div class="form-update-task">
                 <input class="input-update-task-title" type="text" placeholder="Name of the task">
                 <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
+
+                <input type="date" 
+                value=${dateNow}
+                min=${dateNow} max="2018-12-31">
+
             </div>
             <div class="update-task-buttons">
                 <button class="btn-form-cancel-update-task">Cancel</button>
