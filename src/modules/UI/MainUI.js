@@ -2,6 +2,7 @@ import ProjectList from '../ProjectList';
 import Storage from '../Storage';
 import SideBarProjectUI from './SideBarProjectUI';
 import ProjectViewUI from './ProjectViewUI';
+import DateUtils from '../DatUtils';
 
 // one instance of Main UI so I use module pattern
 const MainUI = (() => {

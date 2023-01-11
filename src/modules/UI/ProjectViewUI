@@ -13,6 +13,7 @@ const ProjectViewUI = (() => {
 
     // Add task buttons elements
     const btnAddTask = document.getElementById('btn-add-task');
+    const inputDateAddTask = document.getElementById('input-date-add-task');
 
     // Form elements
     const formAddTask = document.getElementById('form-add-task-container');
@@ -36,6 +37,12 @@ const ProjectViewUI = (() => {
         inputTaskTitle.addEventListener('keyup', handleInputAddTaskTitle);
         btnFormAddTask.addEventListener('click', addTask);
         btnFormCancelAddTask.addEventListener('click', cancelAddTask);
+
+        //initialize date task
+        let dateNow = format(new Date(), 'yyyy-MM-dd')
+        inputDateAddTask.value = dateNow;
+        inputDateAddTask.min = dateNow;
+
     };
 
     const openAddTaskForm = () => {
@@ -65,6 +72,7 @@ const ProjectViewUI = (() => {
         }
         // add the Task to the ProjectList and save the new ProjectList with the new task
         let newTask = Task(inputTaskTitle.value, inputTaskDescription.value);
+        newTask.dueDate = inputDateAddTask.value || null;
         let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
         addTaskToProject(newTask, currentProject);
 
@@ -222,9 +230,9 @@ const ProjectViewUI = (() => {
                 <input class="input-update-task-title" type="text" placeholder="Name of the task">
                 <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
 
-                <input type="date" 
+                <input class="input-update-task-date" type="date" 
                 value=${dateNow}
-                min=${dateNow} max="2018-12-31">
+                min=${dateNow}>
 
             </div>
             <div class="update-task-buttons">

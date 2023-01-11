@@ -52,6 +52,13 @@ img.icon {
     display: none;
 }
 
+#input-date-add-task {
+    width: 130px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px 5px;
+}
+
 /* END button add task */
 
 
@@ -152,6 +159,14 @@ textarea.input-update-task-description {
 
 .form-update-task-container:not([active]) {
     display: none;
+}
+
+.input-update-task-date {
+    width: 130px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px 5px;
+    cursor: pointer;
 }
 
 /* END form update Task*/

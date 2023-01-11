@@ -1,4 +1,4 @@
-import { compareAsc, format, parse } from 'date-fns'
+import { compareAsc, format, parse, parseISO } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid';
 import Storage from './Storage';
 
@@ -12,7 +12,7 @@ const Task = (title, description = null, dueDate = null) => {
 
 
     const isPresentOrFutureDate = (date) => {
-        let dateNow = parse(format(new Date(),"dd/MM/yyyy"), "dd/MM/yyyy", new Date());
+        let dateNow = parseISO(format(new Date(),"dd/MM/yyyy"));
         return date !== null && compareAsc(date, dateNow) !== -1 // check if the due date is not in the past
     }
 
@@ -70,15 +70,16 @@ const Task = (title, description = null, dueDate = null) => {
             return _dueDate;
         },
 
-        set dueDate(dueDate) {
-            if (isPresentOrFutureDate(dueDate)) {
-                _dueDate = dueDate;
+        set dueDate(dueDateString) {
+            if (isPresentOrFutureDate(parseISO(dueDateString))) {
+                _dueDate = parseISO(dueDateString);
             }
         },
 
         get formattedDate() {
             if (_dueDate !== null) {
-                return format(_dueDate, 'dd/MM/yyyy');
+                console.log(_dueDate);
+                return format(_dueDate,'yyyy-MM-dd');
             }
         }
 
