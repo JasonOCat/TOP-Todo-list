@@ -4,6 +4,7 @@ import Project, { addTaskToProject, removeTaskFromProject, getTaskById } from '.
 import Storage from '../Storage';
 
 import { format, compareAsc } from 'date-fns';
+import DateUtils from '../DateUtils';
 
 
 
@@ -13,7 +14,7 @@ const ProjectViewUI = (() => {
 
     // Add task buttons elements
     const btnAddTask = document.getElementById('btn-add-task');
-    const inputDateAddTask = document.getElementById('input-date-add-task');
+    
 
     // Form elements
     const formAddTask = document.getElementById('form-add-task-container');
@@ -21,6 +22,8 @@ const ProjectViewUI = (() => {
     const btnFormCancelAddTask = document.getElementById('btn-form-cancel-task');
     const inputTaskTitle = document.getElementById('input-task-title');
     const inputTaskDescription = document.getElementById('input-task-description');
+    const inputDateAddTask = document.getElementById('input-date-add-task');
+    
 
     const getCurrentProject = () => {
         let currentProjectId = projectTitle.getAttribute('data-project');
@@ -73,7 +76,7 @@ const ProjectViewUI = (() => {
         let newTask = Task(inputTaskTitle.value, inputTaskDescription.value);
         
         newTask.dueDate = inputDateAddTask.value || null;
-        console.log(typeof newTask.dueDate);
+        console.log(DateUtils.isDateToday(newTask.dueDate));
         let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
         addTaskToProject(newTask, currentProject);
 
@@ -84,6 +87,7 @@ const ProjectViewUI = (() => {
         displayAddTaskButton();
         clearInputTaskTitle();
         clearInputTaskDescription();
+        clearInputTaskDueDate();
     };
 
     const updateOpenedTask = (btnTask, openedUpdateTaskForm) => {
@@ -125,6 +129,11 @@ const ProjectViewUI = (() => {
     const clearInputTaskDescription = () => {
         inputTaskDescription.value = '';
         inputTaskDescription.style = '';
+    }
+
+    const clearInputTaskDueDate = () => {
+        let dateNow = format(new Date(), 'yyyy-MM-dd')
+        inputDateAddTask.value = '';
     }
 
     const handleInputAddTaskTitle = (e) => {

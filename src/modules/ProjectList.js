@@ -7,9 +7,11 @@ import Task from './Task';
 const ProjectList = (() => {
     let _projects = [];
     let _inboxProject = Project("Inbox", true);
+    let _todayProject = Project("Today", true);
+    let _upcomingProject = Project("Upcoming", true);
     _projects.push(_inboxProject);
-    _projects.push(Project("Today", true));
-    _projects.push(Project("Upcoming", true));
+    _projects.push(_todayProject);
+    _projects.push(_upcomingProject);
 
     const addProject = (newProject) => {
         _projects.push(newProject);
@@ -45,6 +47,10 @@ const ProjectList = (() => {
         }
     }
 
+    function addToProjectTodayTask(task) {
+        _todayProject.addTask(task);
+    }
+
     const setProjects = (arrProjects) => {
         _projects = arrProjects;
     }
@@ -78,6 +84,7 @@ const ProjectList = (() => {
         getInboxProject,
         getUpcomingProject,
         findProjectOfTask,
+        addToProjectTodayTask
     }
 
 })();
