@@ -72,16 +72,11 @@ const Task = (title, description = null, dueDate = null) => {
 
         set dueDate(dueDateString) {
             if (isPresentOrFutureDate(parseISO(dueDateString))) {
-                _dueDate = parseISO(dueDateString);
+                _dueDate = format(parseISO(dueDateString),'yyyy-MM-dd');
+            }else {
+                alert("Please provide a valid date");
             }
         },
-
-        get formattedDate() {
-            if (_dueDate !== null) {
-                console.log(_dueDate);
-                return format(_dueDate,'yyyy-MM-dd');
-            }
-        }
 
      };
 };
@@ -94,5 +89,14 @@ const isValidDescription = (description) => {
     return description && description.trim().length > 0;
 }
 
+
+function getFormattedDueDate(task) {
+    console.log(typeof task.dueDate);
+    if (task.dueDate) {
+        return format(parseISO(task.dueDate),'yyyy-MM-dd'); //parseISO to have a Date to work with
+    }
+    return null;
+}
+
 export default Task;
-export { isValidTaskTitle, isValidDescription };
+export { isValidTaskTitle, isValidDescription, getFormattedDueDate };

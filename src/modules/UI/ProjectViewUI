@@ -1,4 +1,4 @@
-import Task, { isValidTaskTitle } from '../Task';
+import Task, { isValidTaskTitle, getFormattedDueDate } from '../Task';
 import ProjectList from '../ProjectList';
 import Project, { addTaskToProject, removeTaskFromProject, getTaskById } from '../Project';
 import Storage from '../Storage';
@@ -72,7 +72,9 @@ const ProjectViewUI = (() => {
         }
         // add the Task to the ProjectList and save the new ProjectList with the new task
         let newTask = Task(inputTaskTitle.value, inputTaskDescription.value);
+        
         newTask.dueDate = inputDateAddTask.value || null;
+        console.log(typeof newTask.dueDate);
         let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
         addTaskToProject(newTask, currentProject);
 
@@ -231,7 +233,7 @@ const ProjectViewUI = (() => {
                 <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
 
                 <input class="input-update-task-date" type="date" 
-                value=${dateNow}
+                value=${getFormattedDueDate(task) ? getFormattedDueDate(task) : "2022-12-12"}
                 min=${dateNow}>
 
             </div>
@@ -295,6 +297,7 @@ const ProjectViewUI = (() => {
 
     const initCancelAndSaveTaskButtons = (divUpdateTaskForm, taskButton, task) => {
         const inputUpdateTitle = divUpdateTaskForm.querySelector('.input-update-task-title');
+        const inputUpdateDate = divUpdateTaskForm.querySelector('.input-update-task-date');
         const inputUpdateDescription = divUpdateTaskForm.querySelector('.input-update-task-description');
         const cancelUpdateButton = divUpdateTaskForm.querySelector('.btn-form-cancel-update-task');
         const saveUpdateButton = divUpdateTaskForm.querySelector('.btn-form-update-task');
@@ -313,6 +316,7 @@ const ProjectViewUI = (() => {
         const updateTask = () => {
             task.title = inputUpdateTitle.value;
             task.description = inputUpdateDescription.value;
+            task.dueDate = inputUpdateDate.value;
             divUpdateTaskForm.removeAttribute('active');
             taskButton.setAttribute('active', '');
             spanTaskTitle.textContent = task.title;
