@@ -21,7 +21,6 @@ const Task = (title, description = null, dueDate = null) => {
     }
 
     if (description && !isValidDescription(description)) {
-        console.log(description);
         throw new Error('Description is invalid');
     }
 
@@ -71,6 +70,9 @@ const Task = (title, description = null, dueDate = null) => {
         },
 
         set dueDate(dueDateString) {
+            if (dueDateString === null) {
+                return;
+            }
             if (isPresentOrFutureDate(parseISO(dueDateString))) {
                 _dueDate = format(parseISO(dueDateString),'yyyy-MM-dd');
             }else {
@@ -91,7 +93,6 @@ const isValidDescription = (description) => {
 
 
 function getFormattedDueDate(task) {
-    console.log(typeof task.dueDate);
     if (task.dueDate) {
         return format(parseISO(task.dueDate),'yyyy-MM-dd'); //parseISO to have a Date to work with
     }

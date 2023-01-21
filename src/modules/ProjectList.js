@@ -1,11 +1,13 @@
 import Project from './Project'
 import Storage from './Storage';
+import Task from './Task';
 
 
 // one instance of Project list so I use module pattern
 const ProjectList = (() => {
     let _projects = [];
-    _projects.push(Project("Inbox", true));
+    let _inboxProject = Project("Inbox", true);
+    _projects.push(_inboxProject);
     _projects.push(Project("Today", true));
     _projects.push(Project("Upcoming", true));
 
@@ -23,6 +25,24 @@ const ProjectList = (() => {
         _projects.splice(indexProjectToDelete, 1);
         Storage.saveProjectList();
 
+    }
+
+    function findProjectOfTask(taskToFind) {
+        
+
+        let indexProjectOfTask = _projects.findIndex( project => {
+            return project.tasks.find(task => {
+                return task.id === taskToFind.id
+            }) !== undefined
+        })
+
+        if (indexProjectOfTask == -1) {
+            throw Error(`The task id ${taskToFind.id} doesn't exist`);
+        } 
+
+        else {
+            return _projects[indexProjectOfTask];
+        }
     }
 
     const setProjects = (arrProjects) => {
@@ -56,7 +76,8 @@ const ProjectList = (() => {
         getProjectById,
         getTodayProject,
         getInboxProject,
-        getUpcomingProject
+        getUpcomingProject,
+        findProjectOfTask,
     }
 
 })();

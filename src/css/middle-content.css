@@ -2,6 +2,22 @@
     --add-task-color : #dd4b39;
 }
 
+/* START Checkboxes  */
+.rounded-checkbox {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    vertical-align: middle;
+    border: 1px solid grey;
+    appearance: none;
+    -webkit-appearance: none;
+    outline: none;
+    cursor: pointer;
+  }
+
+
+/* END Checkboxes  */
+
 .middle-content {
     display: grid;
     grid-template-columns: minmax(305px, 1fr) 4fr;
@@ -169,6 +185,20 @@ textarea.input-update-task-description {
     cursor: pointer;
 }
 
+.duedate-and-project {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+    color: #555;
+}
+
+.task-duedate-display {
+    border: 1px solid #ccc;
+    padding: 5px 5px;
+    border-radius: 5px;
+}
+
 /* END form update Task*/
 
 
@@ -195,6 +225,7 @@ textarea.input-update-task-description {
  {
     width:100%;
     display: flex;
+    align-items: center;
     gap: 10px;
 
 }
@@ -210,7 +241,7 @@ textarea.input-update-task-description {
 .task-description {
     text-align: left;
     width: 100%;
-    padding-left: 23px;
+    padding-left: 28px;
     color: grey;
     font-size: 0.8rem;
     white-space: nowrap;
@@ -223,3 +254,5 @@ textarea.input-update-task-description {
 }
 
 /* END Tasks button */
+
+

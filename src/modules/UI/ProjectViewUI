@@ -40,7 +40,6 @@ const ProjectViewUI = (() => {
 
         //initialize date task
         let dateNow = format(new Date(), 'yyyy-MM-dd')
-        inputDateAddTask.value = dateNow;
         inputDateAddTask.min = dateNow;
 
     };
@@ -209,7 +208,7 @@ const ProjectViewUI = (() => {
 
 
                 <div class="task-button-sub-container">
-                    <input class="checkbox-task-done" type="checkbox">
+                    <input class="checkbox-task-done rounded-checkbox" type="checkbox">
                     <span class="task-title">${task.title}</span>
                 </div>
 
@@ -232,9 +231,13 @@ const ProjectViewUI = (() => {
                 <input class="input-update-task-title" type="text" placeholder="Name of the task">
                 <textarea class="input-update-task-description" rows="3" placeholder="Description"></textarea>
 
+                <div class="duedate-and-project">
                 <input class="input-update-task-date" type="date" 
-                value=${getFormattedDueDate(task) ? getFormattedDueDate(task) : "2022-12-12"}
+                value=${task.dueDate ? getFormattedDueDate(task) : null}
                 min=${dateNow}>
+
+                <div class="task-duedate-display">${ProjectList.findProjectOfTask(task).name}</div>
+                </div>
 
             </div>
             <div class="update-task-buttons">
