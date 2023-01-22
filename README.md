@@ -6,5 +6,5 @@
 
 
 Live demo 👉 https://jasonocat.github.io/TOP-Todo-list/
-- mainly inspire by https://todoist.com/
+- mainly inspired by https://todoist.com/
 - missing feature "upcoming task"
