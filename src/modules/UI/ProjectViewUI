@@ -1,9 +1,9 @@
-import Task, { isValidTaskTitle, getFormattedDueDate } from '../Task';
+import Task, { isValidTaskTitle, getFormattedDueDate, updateTaskFromAllProjects } from '../Task';
 import ProjectList from '../ProjectList';
 import Project, { addTaskToProject, removeTaskFromProject, getTaskById, } from '../Project';
 import Storage from '../Storage';
 
-import { format, compareAsc, parseISO } from 'date-fns';
+import { format, compareAsc, parseISO, isToday } from 'date-fns';
 import DateUtils from '../DateUtils';
 
 import ImgCalendar from '../../img/upcoming.png'
@@ -209,7 +209,6 @@ const ProjectViewUI = (() => {
 
     const initProjectTasksAndTheirButtons = () => {
         cleanProjectView();
-        console.log(getCurrentProject());
         getCurrentProject().tasks.forEach(task => displayTaskAndItsButtons(task));
         initAddTaskButton()
     }
@@ -240,9 +239,9 @@ const ProjectViewUI = (() => {
                     ${task.description ? task.description : ""} 
                 </span>
                 <div class="task-description-and-project">
-                    <div>
+                    <span class="span.task-date">
                         ${task.dueDate ? format(parseISO(task.dueDate),'d LLL') : ""}
-                    </div>
+                    </span>
                     <div>
                         ${ProjectList.findProjectOfTask(task).name}
                     </div>
@@ -336,6 +335,7 @@ const ProjectViewUI = (() => {
         const saveUpdateButton = divUpdateTaskForm.querySelector('.btn-form-update-task');
         const spanTaskTitle = taskButton.querySelector('span.task-title');
         const spanTaskDescription = taskButton.querySelector('span.task-description');
+        const spanTaskDate = taskButton.querySelector('span.task-date');
         
         // Cancel update
         cancelUpdateButton.addEventListener('click', () => {
@@ -347,6 +347,29 @@ const ProjectViewUI = (() => {
         // Listener when updating title or the description
 
         const updateTask = () => {
+
+            //case when it's today project and the date is not today
+            if (getCurrentProject() === ProjectList.getTodayProject()) {
+                if (!DateUtils.isDateToday(inputUpdateDate.value)) {
+
+                    //remove the task from Today project 
+                    removeTaskFromProject(task, ProjectList.getTodayProject());
+
+                    //do not display the task in project anymore
+                    taskButton.parentElement.remove();
+                    
+
+                    //update the task in the real project
+                    task.title = inputUpdateTitle.value;
+                    task.description = inputUpdateDescription.value;
+                    task.dueDate = inputUpdateDate.value;
+                    updateTaskFromAllProjects(task);
+                    Storage.saveProjectList(); 
+                    return;
+                }
+
+            }
+
             task.title = inputUpdateTitle.value;
             task.description = inputUpdateDescription.value;
             task.dueDate = inputUpdateDate.value;
@@ -354,6 +377,8 @@ const ProjectViewUI = (() => {
             taskButton.setAttribute('active', '');
             spanTaskTitle.textContent = task.title;
             spanTaskDescription.textContent = task.description;
+            inputUpdateDate.value = task.dueDate;
+            updateTaskFromAllProjects(task);
             Storage.saveProjectList();           
         }
 

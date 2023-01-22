@@ -60,11 +60,15 @@ const isValidProjectName = (projectName) => {
 const addTaskToProject = (newTask, currentProject) => {
     // add the task in Inbox project if the task is created in the Inbox, Today, Upcoming project
     if (currentProject === ProjectList.getInboxProject() || currentProject === ProjectList.getTodayProject() || currentProject === ProjectList.getUpcomingProject()) {
-        ProjectList.getInboxProject().tasks.push(newTask);
+        if (ProjectList.getInboxProject().tasks.find(task => task.id === newTask.id) === undefined) {
+            ProjectList.getInboxProject().tasks.push(newTask);
+        }
     } 
 
     else {
-        currentProject.tasks.push(newTask);
+        if (currentProject.tasks.find(task => task.id === newTask.id) === undefined) {
+            currentProject.tasks.push(newTask);
+        }
     }
 
     // add the task in Today project if the duedate is today

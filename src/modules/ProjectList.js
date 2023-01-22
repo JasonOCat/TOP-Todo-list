@@ -44,6 +44,7 @@ const ProjectList = (() => {
         }
     }
 
+
     function addTaskToProjectToday(taskToAdd) {
         // don't add the project if its duedate is already today
         if (getTodayProject().tasks.find(task => task.id === taskToAdd.id) === undefined) {

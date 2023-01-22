@@ -2,6 +2,7 @@ import { compareAsc, format, parse, parseISO } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid';
 import Storage from './Storage';
 import DateUtils from './DateUtils';
+import ProjectList from './ProjectList';
 
 const Task = (title, description = null, dueDate = null) => {
     let _uuid = uuidv4(); 
@@ -101,5 +102,18 @@ function getFormattedDueDate(task) {
     return null;
 }
 
+function updateTaskFromAllProjects(updatedTask) {
+    console.log(updatedTask.dueDate);
+    let realProject = ProjectList.findProjectOfTask(updatedTask);
+    realProject.tasks
+        .filter(task => task.id === updatedTask.id)
+        .forEach(task => {
+            task.title = updatedTask.title;
+            task.description = updatedTask.description;
+            task.dueDate = updatedTask.dueDate;
+        })
+
+}
+
 export default Task;
-export { isValidTaskTitle, isValidDescription, getFormattedDueDate };
+export { isValidTaskTitle, isValidDescription, getFormattedDueDate, updateTaskFromAllProjects};
