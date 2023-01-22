@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import Storage from './Storage';
 import DateUtils from './DateUtils';
 import ProjectList from './ProjectList';
+import Project, {projectHasTask, getTaskFromProject, getIndexTaskFromProject} from './Project';
 
 const Task = (title, description = null, dueDate = null) => {
     let _uuid = uuidv4(); 
@@ -113,7 +114,30 @@ function updateTaskFromAllProjects(updatedTask) {
             task.dueDate = updatedTask.dueDate;
         })
 
+    //delete or add from Today project
+    if (DateUtils.isDateToday(updatedTask.dueDate)) {
+        let taskToUdpate = getTaskFromProject(ProjectList.getTodayProject(), updatedTask);
+        if (!taskToUdpate) {
+            ProjectList.getTodayProject().tasks.push(updatedTask);
+        } else {
+            taskToUdpate.title = updatedTask.title;
+            taskToUdpate.description = updatedTask.description;
+            taskToUdpate.dueDate = updatedTask.dueDate;
+        }
+    }
+
+    //due date of task is not today
+    else {
+        let taskIndexToRemove = getIndexTaskFromProject(ProjectList.getTodayProject(), updatedTask);
+        if (taskIndexToRemove !== -1) {
+            ProjectList.getTodayProject().tasks.splice(taskIndexToRemove, 1);
+        }
+    }
+
+    Storage.saveProjectList();
+
 }
+
 
 export default Task;
 export { isValidTaskTitle, isValidDescription, getFormattedDueDate, updateTaskFromAllProjects};

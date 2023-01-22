@@ -1,13 +1,9 @@
-import Task, { isValidTaskTitle, getFormattedDueDate, updateTaskFromAllProjects } from '../Task';
+import Task, { isValidTaskTitle, getFormattedDueDate, updateTaskFromAllProjects, getTaskFromProject } from '../Task';
 import ProjectList from '../ProjectList';
-import Project, { addTaskToProject, removeTaskFromProject, getTaskById, } from '../Project';
+import Project, { addTaskToProject, removeTaskFromAllProject, getTaskById} from '../Project';
 import Storage from '../Storage';
-
-import { format, compareAsc, parseISO, isToday } from 'date-fns';
+import { format, parseISO} from 'date-fns';
 import DateUtils from '../DateUtils';
-
-import ImgCalendar from '../../img/upcoming.png'
-
 
 
 const ProjectViewUI = (() => {
@@ -17,7 +13,6 @@ const ProjectViewUI = (() => {
     // Add task buttons elements
     const btnAddTask = document.getElementById('btn-add-task');
     
-
     // Form elements
     const formAddTask = document.getElementById('form-add-task-container');
     const btnFormAddTask = document.getElementById('btn-form-add-task');
@@ -26,13 +21,10 @@ const ProjectViewUI = (() => {
     const inputTaskDescription = document.getElementById('input-task-description');
     const inputDateAddTask = document.getElementById('input-date-add-task');
     
-
     const getCurrentProject = () => {
         let currentProjectId = projectTitle.getAttribute('data-project');
         return ProjectList.getProjectById(currentProjectId);
-
     }
-
 
     const initAddTaskButton = () => {
         // Button add Task
@@ -239,7 +231,7 @@ const ProjectViewUI = (() => {
                     ${task.description ? task.description : ""} 
                 </span>
                 <div class="task-description-and-project">
-                    <span class="span.task-date">
+                    <span class="task-date">
                         ${task.dueDate ? format(parseISO(task.dueDate),'d LLL') : ""}
                     </span>
                     <div>
@@ -306,10 +298,7 @@ const ProjectViewUI = (() => {
         //checkbox 
         initCheckboxTaskDone(newTaskButtonDiv, task);
 
-
-
         newTaskButton.insertAdjacentElement('afterend', divUpdateTaskForm);
-
         projectViewDiv.appendChild(newTaskButtonDiv);
 
     }
@@ -320,7 +309,7 @@ const ProjectViewUI = (() => {
 
         checkboxTaskDone.addEventListener('click', (e) => {
             e.stopPropagation();
-            removeTaskFromProject(task, getCurrentProject());
+            removeTaskFromAllProject(task, getCurrentProject());
             newTaskButtonDiv.remove();
             Storage.saveProjectList();
 
@@ -349,25 +338,19 @@ const ProjectViewUI = (() => {
         const updateTask = () => {
 
             //case when it's today project and the date is not today
-            if (getCurrentProject() === ProjectList.getTodayProject()) {
-                if (!DateUtils.isDateToday(inputUpdateDate.value)) {
-
+            if (getCurrentProject() === ProjectList.getTodayProject() && !DateUtils.isDateToday(inputUpdateDate.value)) {
                     //remove the task from Today project 
-                    removeTaskFromProject(task, ProjectList.getTodayProject());
+                    //removeTaskFromOneProject(task, ProjectList.getTodayProject());
 
                     //do not display the task in project anymore
                     taskButton.parentElement.remove();
                     
-
                     //update the task in the real project
                     task.title = inputUpdateTitle.value;
                     task.description = inputUpdateDescription.value;
                     task.dueDate = inputUpdateDate.value;
                     updateTaskFromAllProjects(task);
-                    Storage.saveProjectList(); 
                     return;
-                }
-
             }
 
             task.title = inputUpdateTitle.value;
@@ -377,6 +360,7 @@ const ProjectViewUI = (() => {
             taskButton.setAttribute('active', '');
             spanTaskTitle.textContent = task.title;
             spanTaskDescription.textContent = task.description;
+            spanTaskDate.textContent = `${task.dueDate ? format(parseISO(task.dueDate),'d LLL') : ""}`
             inputUpdateDate.value = task.dueDate;
             updateTaskFromAllProjects(task);
             Storage.saveProjectList();           
@@ -396,11 +380,7 @@ const ProjectViewUI = (() => {
         saveUpdateButton.addEventListener('click', () => {
             updateTask();
         })
-
-
-
     }
-
 
     return {
         openProject,

@@ -1,4 +1,4 @@
-import Project, { addTaskToProject } from './Project'
+import Project, { addTaskToProject, getTaskFromProject } from './Project'
 import Storage from './Storage';
 import Task from './Task';
 
@@ -35,7 +35,7 @@ const ProjectList = (() => {
                     )!== undefined            
         )
 
-        if (indexProjectOfTask == -1) {
+        if (indexProjectOfTask === -1) {
             throw Error(`The task id ${taskToFind.id} doesn't exist`);
         } 
 

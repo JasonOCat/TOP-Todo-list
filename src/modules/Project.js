@@ -78,7 +78,7 @@ const addTaskToProject = (newTask, currentProject) => {
     Storage.saveProjectList();
 }
 
-const removeTaskFromProject = (taskToRemove, projectToFind) => {
+const removeTaskFromAllProject = (taskToRemove, projectToFind) => {
     // retrieve all the projects that contains the task, cause Today and upcoming project can have the task
     let projectsHavingTaskToDelete = ProjectList.projects
                                             .filter(project =>
@@ -96,5 +96,13 @@ const getTaskById = (taskId, project) => {
     return project.tasks.find(task => task.id === taskId);
 }
 
+function getTaskFromProject(project, taskToFind) {
+    return project.tasks.find(task => task.id === taskToFind.id);
+}
+
+function getIndexTaskFromProject(project, taskToFind) {
+    return project.tasks.findIndex(task => task.id === taskToFind.id);
+}
+
 export default Project;
-export { removeTaskFromProject, isValidProjectName, getTaskById, addTaskToProject };
+export { removeTaskFromAllProject, isValidProjectName, getTaskById, addTaskToProject, getTaskFromProject, getIndexTaskFromProject };
