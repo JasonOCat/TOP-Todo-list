@@ -2,6 +2,7 @@
     --add-task-color : #dd4b39;
 }
 
+
 /* START Checkboxes  */
 .rounded-checkbox {
     width: 18px;
@@ -80,6 +81,10 @@ img.icon {
 
 
 /* START form add Task*/
+
+.task-title {
+    font-size: 0.9rem;
+}
 
 #form-add-task-container {
     width: 100%;
@@ -193,7 +198,7 @@ textarea.input-update-task-description {
     color: #555;
 }
 
-.task-duedate-display {
+.task-project-display {
     border: 1px solid #ccc;
     padding: 5px 5px;
     border-radius: 5px;
@@ -253,6 +258,16 @@ textarea.input-update-task-description {
     display: none;
 }
 
+.task-description-and-project {
+    padding-left: 28px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    width: 100%;
+    color: grey;
+}
+
 /* END Tasks button */
+
 
 

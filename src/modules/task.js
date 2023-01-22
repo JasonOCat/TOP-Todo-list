@@ -1,6 +1,7 @@
 import { compareAsc, format, parse, parseISO } from 'date-fns'
 import { v4 as uuidv4 } from 'uuid';
 import Storage from './Storage';
+import DateUtils from './DateUtils';
 
 const Task = (title, description = null, dueDate = null) => {
     let _uuid = uuidv4(); 
@@ -73,6 +74,7 @@ const Task = (title, description = null, dueDate = null) => {
             if (dueDateString === null) {
                 return;
             }
+
             if (isPresentOrFutureDate(parseISO(dueDateString))) {
                 _dueDate = format(parseISO(dueDateString),'yyyy-MM-dd');
             }else {

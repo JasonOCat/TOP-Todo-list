@@ -1,4 +1,4 @@
-import Project from './Project'
+import Project, { addTaskToProject } from './Project'
 import Storage from './Storage';
 import Task from './Task';
 
@@ -6,12 +6,9 @@ import Task from './Task';
 // one instance of Project list so I use module pattern
 const ProjectList = (() => {
     let _projects = [];
-    let _inboxProject = Project("Inbox", true);
-    let _todayProject = Project("Today", true);
-    let _upcomingProject = Project("Upcoming", true);
-    _projects.push(_inboxProject);
-    _projects.push(_todayProject);
-    _projects.push(_upcomingProject);
+    _projects.push(Project("Inbox", true));
+    _projects.push(Project("Today", true));
+    _projects.push(Project("Upcoming", true));
 
     const addProject = (newProject) => {
         _projects.push(newProject);
@@ -30,13 +27,13 @@ const ProjectList = (() => {
     }
 
     function findProjectOfTask(taskToFind) {
-        
-
-        let indexProjectOfTask = _projects.findIndex( project => {
-            return project.tasks.find(task => {
-                return task.id === taskToFind.id
-            }) !== undefined
-        })
+        let indexProjectOfTask = _projects.findIndex(project => 
+                    project !== getTodayProject() &&
+                    project !== getUpcomingProject() &&
+                    project.tasks.find(task => 
+                        task.id === taskToFind.id
+                    )!== undefined            
+        )
 
         if (indexProjectOfTask == -1) {
             throw Error(`The task id ${taskToFind.id} doesn't exist`);
@@ -47,8 +44,12 @@ const ProjectList = (() => {
         }
     }
 
-    function addToProjectTodayTask(task) {
-        _todayProject.addTask(task);
+    function addTaskToProjectToday(taskToAdd) {
+        // don't add the project if its duedate is already today
+        if (getTodayProject().tasks.find(task => task.id === taskToAdd.id) === undefined) {
+            getTodayProject().tasks.push(taskToAdd);
+        }
+        
     }
 
     const setProjects = (arrProjects) => {
@@ -71,6 +72,8 @@ const ProjectList = (() => {
         return _projects.find(project => project.special && project.name === 'Upcoming')
     }
 
+
+
     return {
         get projects() {
             return _projects;
@@ -84,7 +87,7 @@ const ProjectList = (() => {
         getInboxProject,
         getUpcomingProject,
         findProjectOfTask,
-        addToProjectTodayTask
+        addTaskToProjectToday
     }
 
 })();

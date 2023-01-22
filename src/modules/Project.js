@@ -1,4 +1,6 @@
 import Storage from './Storage';
+import ProjectList from './ProjectList';
+import DateUtils from './DateUtils';
 import { v4 as uuidv4 } from 'uuid';
 import { it } from 'date-fns/locale';
 
@@ -54,18 +56,35 @@ const isValidProjectName = (projectName) => {
     return projectName && projectName.trim().length > 0;
 }
 
-const addTaskToProject = (task, project) => {
-    project.tasks.push(task);
+
+const addTaskToProject = (newTask, currentProject) => {
+    // add the task in Inbox project if the task is created in the Inbox, Today, Upcoming project
+    if (currentProject === ProjectList.getInboxProject() || currentProject === ProjectList.getTodayProject() || currentProject === ProjectList.getUpcomingProject()) {
+        ProjectList.getInboxProject().tasks.push(newTask);
+    } 
+
+    else {
+        currentProject.tasks.push(newTask);
+    }
+
+    // add the task in Today project if the duedate is today
+    if (DateUtils.isDateToday(newTask.dueDate)) {
+        ProjectList.addTaskToProjectToday(newTask);
+    }
     Storage.saveProjectList();
 }
 
-const removeTaskFromProject = (task, project) => {
-    const indexTaskToDelete = project.tasks.findIndex(it => it.id === task.id);
-    if (indexTaskToDelete === -1) {
-        throw Error(`The task id ${task.id} doesn't exist`);
-    }
+const removeTaskFromProject = (taskToRemove, projectToFind) => {
+    // retrieve all the projects that contains the task, cause Today and upcoming project can have the task
+    let projectsHavingTaskToDelete = ProjectList.projects
+                                            .filter(project =>
+                                                project.tasks.find(task =>
+                                                    task.id === taskToRemove.id
+                                                ) !== undefined
+                                            );
 
-    project.tasks.splice(indexTaskToDelete, 1);
+    projectsHavingTaskToDelete.forEach(project => project.tasks.splice(project.tasks.findIndex(task => task.id === taskToRemove.id), 1));
+
     Storage.saveProjectList();
 }
 
@@ -74,4 +93,4 @@ const getTaskById = (taskId, project) => {
 }
 
 export default Project;
-export { addTaskToProject, removeTaskFromProject, isValidProjectName, getTaskById };
+export { removeTaskFromProject, isValidProjectName, getTaskById, addTaskToProject };

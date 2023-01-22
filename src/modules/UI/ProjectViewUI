@@ -1,10 +1,12 @@
 import Task, { isValidTaskTitle, getFormattedDueDate } from '../Task';
 import ProjectList from '../ProjectList';
-import Project, { addTaskToProject, removeTaskFromProject, getTaskById } from '../Project';
+import Project, { addTaskToProject, removeTaskFromProject, getTaskById, } from '../Project';
 import Storage from '../Storage';
 
-import { format, compareAsc } from 'date-fns';
+import { format, compareAsc, parseISO } from 'date-fns';
 import DateUtils from '../DateUtils';
+
+import ImgCalendar from '../../img/upcoming.png'
 
 
 
@@ -41,9 +43,14 @@ const ProjectViewUI = (() => {
         btnFormAddTask.addEventListener('click', addTask);
         btnFormCancelAddTask.addEventListener('click', cancelAddTask);
 
+        if (getCurrentProject() === ProjectList.getTodayProject()) {
+            inputDateAddTask.value = DateUtils.getDateNow();
+        } else {
+            inputDateAddTask.value = '';
+        }
+
         //initialize date task
-        let dateNow = format(new Date(), 'yyyy-MM-dd')
-        inputDateAddTask.min = dateNow;
+        inputDateAddTask.min = DateUtils.getDateNow();
 
     };
 
@@ -76,12 +83,16 @@ const ProjectViewUI = (() => {
         let newTask = Task(inputTaskTitle.value, inputTaskDescription.value);
         
         newTask.dueDate = inputDateAddTask.value || null;
-        console.log(DateUtils.isDateToday(newTask.dueDate));
-        let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
+
+        let currentProject = getCurrentProject();
+
         addTaskToProject(newTask, currentProject);
 
-        // display the new task
-        displayTaskAndItsButtons(newTask);
+        //special case, if today project and its due date is not today, do not display it on today project
+        if (getCurrentProject() !== ProjectList.getTodayProject() || DateUtils.isDateToday(newTask.dueDate)){
+            // display the new task 
+            displayTaskAndItsButtons(newTask);
+        }
 
         hideAddTaskForm();
         displayAddTaskButton();
@@ -176,17 +187,18 @@ const ProjectViewUI = (() => {
 
 
     const setCurrentProjectId = (project) => {
+        projectTitle.setAttribute('data-project', project.id);
         formAddTask.setAttribute('data-project', project.id);
     }
 
 
     const openProject = (project) => {
-        projectTitle.setAttribute('data-project', project.id);
+        setCurrentProjectId(project);
+
         projectTitle.innerHTML = 
         `
         <h2>${project.name}</h2>
         `;
-        setCurrentProjectId(project);
         initProjectTasksAndTheirButtons();
     };
 
@@ -197,8 +209,9 @@ const ProjectViewUI = (() => {
 
     const initProjectTasksAndTheirButtons = () => {
         cleanProjectView();
-        let currentProject = ProjectList.getProjectById(formAddTask.getAttribute('data-project'));
-        currentProject.tasks.forEach(task => displayTaskAndItsButtons(task));
+        console.log(getCurrentProject());
+        getCurrentProject().tasks.forEach(task => displayTaskAndItsButtons(task));
+        initAddTaskButton()
     }
 
     const displayTaskAndItsButtons = (task) => {
@@ -212,6 +225,7 @@ const ProjectViewUI = (() => {
         newTaskButton.setAttribute('data-task', task.id);
 
         // display the task button to the list of tasks
+
         newTaskButton.innerHTML=`
             <div class="task-button-container">
 
@@ -221,17 +235,24 @@ const ProjectViewUI = (() => {
                     <span class="task-title">${task.title}</span>
                 </div>
 
+
                 <span class="task-description">
-                    ${task.description ? task.description : ""}
+                    ${task.description ? task.description : ""} 
                 </span>
+                <div class="task-description-and-project">
+                    <div>
+                        ${task.dueDate ? format(parseISO(task.dueDate),'d LLL') : ""}
+                    </div>
+                    <div>
+                        ${ProjectList.findProjectOfTask(task).name}
+                    </div>
+                </div>
             </div>
             
         `;
 
 
         newTaskButtonDiv.appendChild(newTaskButton);
-
-        let dateNow = format(new Date(), 'yyyy-MM-dd')
 
         let divUpdateTaskForm = document.createElement('div');
         divUpdateTaskForm.classList.add("form-update-task-container")
@@ -243,9 +264,9 @@ const ProjectViewUI = (() => {
                 <div class="duedate-and-project">
                 <input class="input-update-task-date" type="date" 
                 value=${task.dueDate ? getFormattedDueDate(task) : null}
-                min=${dateNow}>
+                min=${DateUtils.getDateNow()}>
 
-                <div class="task-duedate-display">${ProjectList.findProjectOfTask(task).name}</div>
+                <div class="task-project-display">${ProjectList.findProjectOfTask(task).name}</div>
                 </div>
 
             </div>

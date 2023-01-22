@@ -1,15 +1,15 @@
-import { format,compareAsc, parseISO } from 'date-fns';
+import { format,compareAsc, parseISO, startOfDay } from 'date-fns';
 
 
 const DateUtils = (() => {
 
 
     function getDateNow() {
-        return dateNow = format(new Date(), 'yyyy-MM-dd')
+        return format(new Date(), 'yyyy-MM-dd')
     }
 
     function isDateToday(date) {
-        return compareAsc(new Date(), parseISO(date))=== 0;
+        return compareAsc(startOfDay(new Date()), startOfDay(parseISO(date)))=== 0;
     }
 
     return {
