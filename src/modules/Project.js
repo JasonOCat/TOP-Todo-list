@@ -69,7 +69,7 @@ const addTaskToProject = (newTask, currentProject) => {
 
     // add the task in Today project if the duedate is today
     if (DateUtils.isDateToday(newTask.dueDate)) {
-        ProjectList.addTaskToProjectUpcoming(newTask);
+        ProjectList.addTaskToProjectToday(newTask);
     }
 
     // add the task in Upcoming project if the duedate is in the futur
