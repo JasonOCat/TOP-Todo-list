@@ -27,6 +27,16 @@ const ProjectViewUI = (() => {
     }
 
     const initAddTaskButton = () => {
+        
+        // do not display the add task button and form if the user is on the Upcoming tasks
+        if (getCurrentProject() === ProjectList.getUpcomingProject()) {
+            btnAddTask.style.visibility = "hidden";
+            formAddTask.style.visibility = "hidden";
+        } else {
+            btnAddTask.style.visibility = "visible";
+            formAddTask.style.visibility = "visible";
+        }
+
         // Button add Task
         btnAddTask.addEventListener('click', openAddTaskForm);
 

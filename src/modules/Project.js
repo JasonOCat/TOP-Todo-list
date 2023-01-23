@@ -2,15 +2,12 @@ import Storage from './Storage';
 import ProjectList from './ProjectList';
 import DateUtils from './DateUtils';
 import { v4 as uuidv4 } from 'uuid';
-import { it } from 'date-fns/locale';
-
 
 const Project = (projectName, special = false) => {
     let _uuid = uuidv4(); 
     let _name = projectName;
     let _tasks = [];
     let _special = special; // to know if it's a Inbox, Today or Upcoming initial project
-
 
     if (projectName !== null && isValidProjectName(projectName)) {
         _name = projectName;
@@ -56,7 +53,6 @@ const isValidProjectName = (projectName) => {
     return projectName && projectName.trim().length > 0;
 }
 
-
 const addTaskToProject = (newTask, currentProject) => {
     // add the task in Inbox project if the task is created in the Inbox, Today, Upcoming project
     if (currentProject === ProjectList.getInboxProject() || currentProject === ProjectList.getTodayProject() || currentProject === ProjectList.getUpcomingProject()) {
@@ -73,8 +69,13 @@ const addTaskToProject = (newTask, currentProject) => {
 
     // add the task in Today project if the duedate is today
     if (DateUtils.isDateToday(newTask.dueDate)) {
-        ProjectList.addTaskToProjectToday(newTask);
+        ProjectList.addTaskToProjectUpcoming(newTask);
     }
+
+    // add the task in Upcoming project if the duedate is in the futur
+    if (DateUtils.isPresentOrFutureDate(newTask.dueDate)) {
+        ProjectList.addTaskToProjectUpcoming(newTask);
+    } 
     Storage.saveProjectList();
 }
 

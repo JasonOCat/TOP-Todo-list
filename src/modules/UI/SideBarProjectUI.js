@@ -138,11 +138,6 @@ const SideBarProjectUI = (() => {
         addProjectButton.removeAttribute('active');
     }
 
-    const cleanListProjects = () => {
-        const projectListDiv = document.querySelector('#list-projects');
-            projectListDiv.innerHTML = '';
-    }
-
     /******* END HELPERS to display or hide the add project button, the add project form, or the list of projects ************/
 
 

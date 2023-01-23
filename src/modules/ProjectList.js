@@ -53,6 +53,14 @@ const ProjectList = (() => {
         
     }
 
+    function addTaskToProjectUpcoming(taskToAdd) {
+        // don't add the project if its duedate is already today
+        if (getUpcomingProject().tasks.find(task => task.id === taskToAdd.id) === undefined) {
+            getUpcomingProject().tasks.push(taskToAdd);
+        }
+        
+    }
+
     const setProjects = (arrProjects) => {
         _projects = arrProjects;
     }
@@ -88,7 +96,8 @@ const ProjectList = (() => {
         getInboxProject,
         getUpcomingProject,
         findProjectOfTask,
-        addTaskToProjectToday
+        addTaskToProjectToday,
+        addTaskToProjectUpcoming,
     }
 
 })();
