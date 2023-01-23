@@ -74,6 +74,7 @@ const Task = (title, description = null, dueDate = null) => {
 
         set dueDate(dueDateString) {
             if (dueDateString === null) {
+                console.log("ll");
                 return;
             }
 
@@ -131,6 +132,18 @@ function updateTaskFromAllProjects(updatedTask) {
         let taskIndexToRemove = getIndexTaskFromProject(ProjectList.getTodayProject(), updatedTask);
         if (taskIndexToRemove !== -1) {
             ProjectList.getTodayProject().tasks.splice(taskIndexToRemove, 1);
+        }
+    }
+
+    //delete or add from Upcoming project
+    if (DateUtils.isPresentOrFutureDate(updatedTask.dueDate) ) {
+        let taskInFuture = getTaskFromProject(ProjectList.getUpcomingProject(), updatedTask);
+        if (!taskInFuture) {
+            ProjectList.getUpcomingProject().tasks.push(updatedTask);
+        } else {
+            taskInFuture.title = updatedTask.title;
+            taskInFuture.description = updatedTask.description;
+            taskInFuture.dueDate = updatedTask.dueDate;
         }
     }
 

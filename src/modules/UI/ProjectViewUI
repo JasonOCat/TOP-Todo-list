@@ -242,7 +242,8 @@ const ProjectViewUI = (() => {
                 </span>
                 <div class="task-description-and-project">
                     <span class="task-date">
-                        ${task.dueDate ? format(parseISO(task.dueDate),'d LLL') : ""}
+
+                        ${task.dueDate ? (DateUtils.isDateToday(task.dueDate) ? `<p style="color: green;">Today</p>` : format(parseISO(task.dueDate),'d LLL')) : "" }
                     </span>
                     <div>
                         ${ProjectList.findProjectOfTask(task).name}
@@ -370,7 +371,7 @@ const ProjectViewUI = (() => {
             taskButton.setAttribute('active', '');
             spanTaskTitle.textContent = task.title;
             spanTaskDescription.textContent = task.description;
-            spanTaskDate.textContent = `${task.dueDate ? format(parseISO(task.dueDate),'d LLL') : ""}`
+            spanTaskDate.innerHTML = `${task.dueDate ? (DateUtils.isDateToday(task.dueDate) ? `<p style="color: green;">Today</p>` : format(parseISO(task.dueDate),'d LLL')) : "" }`
             inputUpdateDate.value = task.dueDate;
             updateTaskFromAllProjects(task);
             Storage.saveProjectList();           
