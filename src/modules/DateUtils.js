@@ -1,4 +1,4 @@
-import { format,compareAsc, parseISO, startOfDay } from 'date-fns';
+import { format,compareAsc, parseISO, startOfDay, startOfToday } from 'date-fns';
 
 
 const DateUtils = (() => {
@@ -13,8 +13,7 @@ const DateUtils = (() => {
     }
 
     function isPresentOrFutureDate(date) {
-        let dateNow = parseISO(format(new Date(),"dd/MM/yyyy"));
-        return date !== null && compareAsc(date, dateNow) !== -1 // check if the due date is not in the past
+        return date !== null && compareAsc(parseISO(date), startOfToday()) !== -1 // check if the due date is not in the past
     }
 
     return {

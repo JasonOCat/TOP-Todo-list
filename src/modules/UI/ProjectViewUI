@@ -2,7 +2,7 @@ import Task, { isValidTaskTitle, getFormattedDueDate, updateTaskFromAllProjects,
 import ProjectList from '../ProjectList';
 import Project, { addTaskToProject, removeTaskFromAllProject, getTaskById} from '../Project';
 import Storage from '../Storage';
-import { format, parseISO} from 'date-fns';
+import { format, parseISO, startOfToday, isSameYear} from 'date-fns';
 import DateUtils from '../DateUtils';
 
 
@@ -243,7 +243,16 @@ const ProjectViewUI = (() => {
                 <div class="task-description-and-project">
                     <span class="task-date">
 
-                        ${task.dueDate ? (DateUtils.isDateToday(task.dueDate) ? `<p style="color: green;">Today</p>` : format(parseISO(task.dueDate),'d LLL')) : "" }
+                        ${task.dueDate ?
+                            (DateUtils.isDateToday(task.dueDate) ?
+                                `<p style="color: green;">Today</p>`
+                                :
+                                (format(parseISO(task.dueDate),'d LLL')) + (isSameYear(task.dueDate, startOfToday()) ?
+                                    ""
+                                    :
+                                    " " + (format(parseISO(task.dueDate),'yyyy'))))
+                            :
+                            "" }
                     </span>
                     <div>
                         ${ProjectList.findProjectOfTask(task).name}
@@ -371,7 +380,16 @@ const ProjectViewUI = (() => {
             taskButton.setAttribute('active', '');
             spanTaskTitle.textContent = task.title;
             spanTaskDescription.textContent = task.description;
-            spanTaskDate.innerHTML = `${task.dueDate ? (DateUtils.isDateToday(task.dueDate) ? `<p style="color: green;">Today</p>` : format(parseISO(task.dueDate),'d LLL')) : "" }`
+            spanTaskDate.innerHTML =                         `${task.dueDate ?
+                (DateUtils.isDateToday(task.dueDate) ?
+                    `<p style="color: green;">Today</p>`
+                    :
+                    (format(parseISO(task.dueDate),'d LLL')) + (isSameYear(task.dueDate, startOfToday()) ?
+                        ""
+                        :
+                        " " + (format(parseISO(task.dueDate),'yyyy'))))
+                :
+                "" }`
             inputUpdateDate.value = task.dueDate;
             updateTaskFromAllProjects(task);
             Storage.saveProjectList();           
