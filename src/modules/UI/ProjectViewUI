@@ -247,7 +247,7 @@ const ProjectViewUI = (() => {
                             (DateUtils.isDateToday(task.dueDate) ?
                                 `<p style="color: green;">Today</p>`
                                 :
-                                (format(parseISO(task.dueDate),'d LLL')) + (isSameYear(task.dueDate, startOfToday()) ?
+                                (format(parseISO(task.dueDate),'d LLL')) + (isSameYear(parseISO(task.dueDate), startOfToday()) ?
                                     ""
                                     :
                                     " " + (format(parseISO(task.dueDate),'yyyy'))))
@@ -384,7 +384,7 @@ const ProjectViewUI = (() => {
                 (DateUtils.isDateToday(task.dueDate) ?
                     `<p style="color: green;">Today</p>`
                     :
-                    (format(parseISO(task.dueDate),'d LLL')) + (isSameYear(task.dueDate, startOfToday()) ?
+                    (format(parseISO(task.dueDate),'d LLL')) + (isSameYear(parseISO(task.dueDate), startOfToday()) ?
                         ""
                         :
                         " " + (format(parseISO(task.dueDate),'yyyy'))))

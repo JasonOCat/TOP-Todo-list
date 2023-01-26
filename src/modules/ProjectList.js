@@ -61,6 +61,13 @@ const ProjectList = (() => {
         
     }
 
+    function removeTaskFromTodayProject(taskToRemovee) {
+        let indexTask = getUpcomingProject().tasks.findIndex(task => task.id === taskToRemovee.id);
+        if (indexTask !== -1) {
+            getUpcomingProject().tasks.splice(indexTask, 1);
+        }
+    }
+
     const setProjects = (arrProjects) => {
         _projects = arrProjects;
     }
