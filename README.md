@@ -1,6 +1,6 @@
 # TOP-Todo-list
 
-- mainly inspired by https://todoist.com/
+- design mainly inspired by https://todoist.com/
 - full javascript
 - bundle module with webpack
 - use local storage to save data
