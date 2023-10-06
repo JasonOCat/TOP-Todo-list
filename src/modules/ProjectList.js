@@ -1,113 +1,88 @@
-import Project, { addTaskToProject, getTaskFromProject } from './Project'
-import Storage from './Storage';
-import Task from './Task';
-
+import Project from './Project';
 
 // one instance of Project list so I use module pattern
-const ProjectList = (() => {
-    let _projects = [];
-    _projects.push(Project("Inbox", true));
-    _projects.push(Project("Today", true));
-    _projects.push(Project("Upcoming", true));
 
-    const addProject = (newProject) => {
-        _projects.push(newProject);
-        Storage.saveProjectList();
-    }
+let projects = [];
 
-    const deleteProject = (projectId) => {
-        const indexProjectToDelete = _projects.findIndex(project => project.id === projectId);
-        if (indexProjectToDelete === -1) {
-            throw Error(`The project id ${projectId} doesn't exist`);
-        }
+const initProjects = () => {
+  projects.push(Project('Inbox', true));
+  projects.push(Project('Today', true));
+  projects.push(Project('Upcoming', true));
+};
 
-        _projects.splice(indexProjectToDelete, 1);
-        Storage.saveProjectList();
+const addProject = (newProject) => {
+  projects.push(newProject);
+  Storage.saveProjectList();
+};
 
-    }
+const deleteProject = (projectId) => {
+  const indexProjectToDelete = projects.findIndex((project) => project.id === projectId);
+  if (indexProjectToDelete === -1) {
+    throw Error(`The project id ${projectId} doesn't exist`);
+  }
 
-    function findProjectOfTask(taskToFind) {
-        let indexProjectOfTask = _projects.findIndex(project => 
-                    project !== getTodayProject() &&
-                    project !== getUpcomingProject() &&
-                    project.tasks.find(task => 
-                        task.id === taskToFind.id
-                    )!== undefined            
-        )
+  projects.splice(indexProjectToDelete, 1);
+  Storage.saveProjectList();
+};
 
-        if (indexProjectOfTask === -1) {
-            throw Error(`The task id ${taskToFind.id} doesn't exist`);
-        } 
+const getProjectById = (projectId) => projects.find((project) => project.id === projectId);
 
-        else {
-            return _projects[indexProjectOfTask];
-        }
-    }
+const getTodayProject = () => projects.find((project) => project.special && project.name === 'Today');
 
+const getInboxProject = () => projects.find((project) => project.special && project.name === 'Inbox');
 
-    function addTaskToProjectToday(taskToAdd) {
-        // don't add the project if its duedate is already today
-        if (getTodayProject().tasks.find(task => task.id === taskToAdd.id) === undefined) {
-            getTodayProject().tasks.push(taskToAdd);
-        }
-        
-    }
+const getUpcomingProject = () => projects.find((project) => project.special && project.name === 'Upcoming');
 
-    function addTaskToProjectUpcoming(taskToAdd) {
-        // don't add the project if its duedate is already today
-        if (getUpcomingProject().tasks.find(task => task.id === taskToAdd.id) === undefined) {
-            getUpcomingProject().tasks.push(taskToAdd);
-        }
-        
-    }
+const getProjects = () => projects;
 
-    function removeTaskFromTodayProject(taskToRemovee) {
-        let indexTask = getUpcomingProject().tasks.findIndex(task => task.id === taskToRemovee.id);
-        if (indexTask !== -1) {
-            getUpcomingProject().tasks.splice(indexTask, 1);
-        }
-    }
+function findProjectOfTask(taskToFind) {
+  const indexProjectOfTask = projects.findIndex((project) => project !== getTodayProject()
+                && project !== getUpcomingProject()
+                && project.tasks.find((task) => task.id === taskToFind.id) !== undefined);
 
-    const setProjects = (arrProjects) => {
-        _projects = arrProjects;
-    }
+  if (indexProjectOfTask === -1) {
+    throw Error(`The task id ${taskToFind.id} doesn't exist`);
+  } else {
+    return projects[indexProjectOfTask];
+  }
+}
 
-    const getProjectById = (projectId) => {
-        return _projects.find(project => project.id === projectId);
-    }
+function addTaskToProjectToday(taskToAdd) {
+  // don't add the project if its duedate is already today
+  if (getTodayProject().tasks.find((task) => task.id === taskToAdd.id) === undefined) {
+    getTodayProject().tasks.push(taskToAdd);
+  }
+}
 
-    const getTodayProject = () => {
-        return _projects.find(project => project.special && project.name === 'Today')
-    }
+function addTaskToProjectUpcoming(taskToAdd) {
+  // don't add the project if its duedate is already today
+  if (getUpcomingProject().tasks.find((task) => task.id === taskToAdd.id) === undefined) {
+    getUpcomingProject().tasks.push(taskToAdd);
+  }
+}
 
-    const getInboxProject = () => {
-        return _projects.find(project => project.special && project.name === 'Inbox')
-    }
+// function removeTaskFromTodayProject(taskToRemovee) {
+//   const indexTask = getUpcomingProject().tasks.findIndex((task) => task.id === taskToRemovee.id);
+//   if (indexTask !== -1) {
+//     getUpcomingProject().tasks.splice(indexTask, 1);
+//   }
+// }
 
-    const getUpcomingProject = () => {
-        return _projects.find(project => project.special && project.name === 'Upcoming')
-    }
+const setProjects = (arrProjects) => {
+  projects = arrProjects;
+};
 
-
-
-    return {
-        get projects() {
-            return _projects;
-        },
-
-        addProject,
-        deleteProject,
-        setProjects,
-        getProjectById,
-        getTodayProject,
-        getInboxProject,
-        getUpcomingProject,
-        findProjectOfTask,
-        addTaskToProjectToday,
-        addTaskToProjectUpcoming,
-    }
-
-})();
-
-export default ProjectList;
-
+export {
+  initProjects,
+  addProject,
+  deleteProject,
+  setProjects,
+  getProjectById,
+  getTodayProject,
+  getInboxProject,
+  getUpcomingProject,
+  findProjectOfTask,
+  addTaskToProjectToday,
+  addTaskToProjectUpcoming,
+  getProjects,
+};
