@@ -5,9 +5,9 @@ import * as Storage from './Storage';
 
 let _projects = [];
 const initProjects = () => {
-  _projects.push(Project('Inbox', true));
-  _projects.push(Project('Today', true));
-  _projects.push(Project('Upcoming', true));
+  _projects.push(new Project('Inbox', true));
+  _projects.push(new Project('Today', true));
+  _projects.push(new Project('Upcoming', true));
 };
 
 const addProject = (newProject) => {

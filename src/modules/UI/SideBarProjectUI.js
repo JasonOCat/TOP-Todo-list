@@ -67,7 +67,7 @@ const addProject = () => {
   const inputProject = document.querySelector('.input-project');
 
   // add the project to ProjectList and save it in the local storage
-  const newProject = Project(inputProject.value);
+  const newProject = new Project(inputProject.value);
   ProjectList.addProject(newProject);
 
   // Add

@@ -3,47 +3,58 @@ import * as Storage from './Storage';
 import * as ProjectList from './ProjectList';
 import * as DateUtils from './DateUtils';
 
-const Project = (projectName, special = false) => {
-  const _uuid = uuidv4();
-  let _name = projectName;
-  const _tasks = [];
-  const _special = special; // to know if it's a Inbox, Today or Upcoming initial project
+class Project {
+  #name;
 
-  if (projectName !== null && isValidProjectName(projectName)) {
-    _name = projectName;
+  #uuid = uuidv4();
+
+  #tasks = [];
+
+  #special;
+
+  constructor(name, special = false) {
+    this.#name = name;
+    this.#special = special;
   }
 
-  return {
-    get id() {
-      return _uuid;
-    },
+  toJSON() {
+    // Inclure des propriétés et des fonctions dans l'objet sérialisé
+    return {
+      name: this.#name,
+      id: this.#uuid,
+      tasks: this.#tasks,
+      special: this.#special,
+    };
+  }
 
-    get name() {
-      return _name;
-    },
+  get name() {
+    return this.#name;
+  }
 
-    set name(projectName) {
-      if (!isValidProjectName(projectName)) {
-        throw new Error('Project name is invalid');
-      }
+  set name(newName) {
+    if (newName === null || !isValidProjectName(newName)) {
+      throw new Error('Project name is invalid');
+    } else {
+      this.#name = newName;
+    }
+  }
 
-      _name = projectName;
-    },
+  get id() {
+    return this.#uuid;
+  }
 
-    get special() {
-      return _special;
-    },
+  get special() {
+    return this.#special;
+  }
 
-    get tasks() {
-      return _tasks;
-    },
+  get tasks() {
+    return this.#tasks;
+  }
 
-    set tasks(newTasks) {
-      _tasks.splice(0, _tasks.length, ...newTasks);
-    },
-
-  };
-};
+  set tasks(newTasks) {
+    this.#tasks.splice(0, this.#tasks.length, ...newTasks);
+  }
+}
 
 const isValidProjectName = (projectName) => projectName && projectName.trim().length > 0;
 
@@ -84,7 +95,8 @@ function pushTaskToProjectIfNotPresent(newTask, project) {
 }
 
 const removeTaskFromAllProject = (taskToRemove) => {
-  // retrieve all the projects that contains the task, cause Today and upcoming project can have the task
+  // retrieve all the projects that contains the task,
+  // cause Today and upcoming project can have the task
   ProjectList.getProjects()
     .forEach((project) => {
       project.tasks = project.tasks

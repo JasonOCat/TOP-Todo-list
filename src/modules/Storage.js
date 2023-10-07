@@ -2,6 +2,7 @@ import * as ProjectList from './ProjectList';
 import * as DateUtils from './DateUtils';
 
 const saveProjectList = () => {
+  console.log(JSON.stringify(ProjectList.getProjects()));
   localStorage.setItem('projectList', JSON.stringify(ProjectList.getProjects()));
 };
 
