@@ -1,5 +1,5 @@
 import * as ProjectList from '../ProjectList';
-import Storage from '../Storage';
+import * as Storage from '../Storage';
 import SideBarProjectUI from './SideBarProjectUI';
 import * as ProjectViewUI from './ProjectViewUI';
 

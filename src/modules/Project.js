@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
-import Storage from './Storage';
+import * as Storage from './Storage';
 import * as ProjectList from './ProjectList';
 import DateUtils from './DateUtils';
 

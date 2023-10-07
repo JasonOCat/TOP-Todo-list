@@ -6,7 +6,7 @@ import Task, {
 } from '../Task';
 import * as ProjectList from '../ProjectList';
 import { addTaskToProject, removeTaskFromAllProject, getTaskById } from '../Project';
-import Storage from '../Storage';
+import * as Storage from '../Storage';
 import DateUtils from '../DateUtils';
 
 const projectTitle = document.getElementById('project-title');

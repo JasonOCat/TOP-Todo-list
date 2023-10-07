@@ -1,5 +1,5 @@
 import Project from './Project';
-import Storage from './Storage';
+import * as Storage from './Storage';
 
 // one instance of Project list so I use module pattern
 
