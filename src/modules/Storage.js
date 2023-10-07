@@ -9,36 +9,34 @@ const retrieveProjectList = () => {
   if (localStorage.getItem('projectList') !== null) {
     ProjectList.setProjects(JSON.parse(localStorage.getItem('projectList')));
     // remove from today and upcoming project, tasks that don't belong to them anymore
-    let tasksToDelete = ProjectList.getTodayProject().tasks
+    ProjectList.getTodayProject().tasks
       .flatMap((task) => task)
-      .filter((task) => !DateUtils.isDateToday(task.dueDate));
-
-    tasksToDelete.forEach((taskToDelete) => {
-      ProjectList.getTodayProject()
-        .tasks
-        .splice(ProjectList
-          .getTodayProject()
+      .filter((task) => !DateUtils.isDateToday(task.dueDate))
+      .forEach((taskToDelete) => {
+        ProjectList.getTodayProject()
           .tasks
-          .findIndex(
-            (taskIndex) => taskIndex.id === taskToDelete.id,
-          ), 1);
-    });
+          .splice(ProjectList
+            .getTodayProject()
+            .tasks
+            .findIndex(
+              (taskIndex) => taskIndex.id === taskToDelete.id,
+            ), 1);
+      });
 
-    tasksToDelete = ProjectList.getUpcomingProject().tasks
+    ProjectList.getUpcomingProject().tasks
       .flatMap((task) => task)
-      .filter((task) => !DateUtils.isPresentOrFutureDate(task.dueDate));
-
-    tasksToDelete.forEach((taskToDelete) => {
-      ProjectList
-        .getUpcomingProject()
-        .tasks
-        .splice(ProjectList
+      .filter((task) => !DateUtils.isPresentOrFutureDate(task.dueDate))
+      .forEach((taskToDelete) => {
+        ProjectList
           .getUpcomingProject()
           .tasks
-          .findIndex(
-            (taskIndex) => taskIndex.id === taskToDelete.id,
-          ), 1);
-    });
+          .splice(ProjectList
+            .getUpcomingProject()
+            .tasks
+            .findIndex(
+              (taskIndex) => taskIndex.id === taskToDelete.id,
+            ), 1);
+      });
   }
 };
 
