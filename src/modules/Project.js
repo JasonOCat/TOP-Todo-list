@@ -13,11 +13,6 @@ const Project = (projectName, special = false) => {
     _name = projectName;
   }
 
-  const addTask = (task) => {
-    _tasks.push(task);
-    Storage.saveProjectList();
-  };
-
   return {
     get id() {
       return _uuid;
@@ -43,11 +38,9 @@ const Project = (projectName, special = false) => {
       return _tasks;
     },
 
-    // set tasks(newTasks) {
-    //   _tasks.splice(0, _tasks.length, newTasks);
-    // }
-
-    addTask,
+    set tasks(newTasks) {
+      _tasks.splice(0, _tasks.length, ...newTasks);
+    },
 
   };
 };
@@ -90,12 +83,13 @@ function pushTaskToProjectIfNotPresent(newTask, project) {
   }
 }
 
-const removeTaskFromAllProject = (taskToRemove, projectToFind) => {
+const removeTaskFromAllProject = (taskToRemove) => {
   // retrieve all the projects that contains the task, cause Today and upcoming project can have the task
-  const projectsHavingTaskToDelete = ProjectList.getProjects()
-    .filter((project) => project.tasks.find((task) => task.id === taskToRemove.id) !== undefined);
-
-  projectsHavingTaskToDelete.forEach((project) => project.tasks.splice(project.tasks.findIndex((task) => task.id === taskToRemove.id), 1));
+  ProjectList.getProjects()
+    .forEach((project) => {
+      project.tasks = project.tasks
+        .filter((task) => task.id !== taskToRemove.id);
+    });
 
   Storage.saveProjectList();
 };
