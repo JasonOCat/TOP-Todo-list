@@ -1,6 +1,6 @@
 import * as ProjectList from '../ProjectList';
 import * as Storage from '../Storage';
-import SideBarProjectUI from './SideBarProjectUI';
+import * as SideBarProjectUI from './SideBarProjectUI';
 import * as ProjectViewUI from './ProjectViewUI';
 
 // one instance of Main UI so I use module pattern
