@@ -3,7 +3,7 @@ import {
 } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import * as Storage from './Storage';
-import DateUtils from './DateUtils';
+import * as DateUtils from './DateUtils';
 import * as ProjectList from './ProjectList';
 import { getTaskFromProject, getIndexTaskFromProject } from './Project';
 

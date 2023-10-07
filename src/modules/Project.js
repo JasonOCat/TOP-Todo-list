@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import * as Storage from './Storage';
 import * as ProjectList from './ProjectList';
-import DateUtils from './DateUtils';
+import * as DateUtils from './DateUtils';
 
 const Project = (projectName, special = false) => {
   const _uuid = uuidv4();

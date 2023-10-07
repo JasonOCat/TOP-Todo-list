@@ -7,7 +7,7 @@ import Task, {
 import * as ProjectList from '../ProjectList';
 import { addTaskToProject, removeTaskFromAllProject, getTaskById } from '../Project';
 import * as Storage from '../Storage';
-import DateUtils from '../DateUtils';
+import * as DateUtils from '../DateUtils';
 
 const projectTitle = document.getElementById('project-title');
 const projectViewDiv = document.querySelector('.project-view');
