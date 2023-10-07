@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import Storage from './Storage';
-import ProjectList from './ProjectList';
+import * as ProjectList from './ProjectList';
 import DateUtils from './DateUtils';
 
 const Project = (projectName, special = false) => {
@@ -74,7 +74,7 @@ const addTaskToProject = (newTask, currentProject) => {
 
 const removeTaskFromAllProject = (taskToRemove, projectToFind) => {
   // retrieve all the projects that contains the task, cause Today and upcoming project can have the task
-  const projectsHavingTaskToDelete = ProjectList.projects
+  const projectsHavingTaskToDelete = ProjectList.getProjects()
     .filter((project) => project.tasks.find((task) => task.id === taskToRemove.id) !== undefined);
 
   projectsHavingTaskToDelete.forEach((project) => project.tasks.splice(project.tasks.findIndex((task) => task.id === taskToRemove.id), 1));

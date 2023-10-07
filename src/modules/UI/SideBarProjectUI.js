@@ -1,6 +1,6 @@
 import ProjectViewUI from './ProjectViewUI';
 import Project, { isValidProjectName } from '../Project';
-import ProjectList from '../ProjectList';
+import * as ProjectList from '../ProjectList';
 import ImgList from '../../img/list.png';
 import ImgClose from '../../img/close.png';
 
@@ -144,7 +144,7 @@ const SideBarProjectUI = (() => {
   };
 
   const displayProjectsAndTheirButtons = () => {
-    ProjectList.projects
+    ProjectList.getProjects()
       .filter((project) => !project.special)
       .forEach((project) => addProjectButtons(project));
   };

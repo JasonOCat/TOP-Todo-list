@@ -4,7 +4,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 import Storage from './Storage';
 import DateUtils from './DateUtils';
-import ProjectList from './ProjectList';
+import * as ProjectList from './ProjectList';
 import { getTaskFromProject, getIndexTaskFromProject } from './Project';
 
 const Task = (title, description = null, dueDate = null) => {

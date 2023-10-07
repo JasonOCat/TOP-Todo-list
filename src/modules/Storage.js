@@ -1,9 +1,9 @@
-import ProjectList from './ProjectList';
+import * as ProjectList from './ProjectList';
 import DateUtils from './DateUtils';
 
 const Storage = (() => {
   const saveProjectList = () => {
-    localStorage.setItem('projectList', JSON.stringify(ProjectList.projects));
+    localStorage.setItem('projectList', JSON.stringify(ProjectList.getProjects()));
   };
 
   const retrieveProjectList = () => {

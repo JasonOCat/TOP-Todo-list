@@ -4,7 +4,7 @@ import {
 import Task, {
   isValidTaskTitle, getFormattedDueDate, updateTaskFromAllProjects,
 } from '../Task';
-import ProjectList from '../ProjectList';
+import * as ProjectList from '../ProjectList';
 import { addTaskToProject, removeTaskFromAllProject, getTaskById } from '../Project';
 import Storage from '../Storage';
 import DateUtils from '../DateUtils';
