@@ -172,7 +172,7 @@ const addProjectButtons = (project) => {
     ProjectViewUI.displayAddTaskButton();
     ProjectViewUI.clearInputTaskTitle();
     ProjectViewUI.clearInputTaskDescription();
-    SideBarProjectUI.setActiveProject(newProjectButton);
+    setActiveProject(newProjectButton);
   });
 
   projectListDiv.appendChild(newProjectButton);
