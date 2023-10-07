@@ -43,6 +43,10 @@ const Project = (projectName, special = false) => {
       return _tasks;
     },
 
+    // set tasks(newTasks) {
+    //   _tasks.splice(0, _tasks.length, newTasks);
+    // }
+
     addTask,
 
   };
@@ -51,13 +55,14 @@ const Project = (projectName, special = false) => {
 const isValidProjectName = (projectName) => projectName && projectName.trim().length > 0;
 
 const addTaskToProject = (newTask, currentProject) => {
-  // add the task in Inbox project if the task is created in the Inbox, Today, Upcoming project
-  if (currentProject === ProjectList.getInboxProject() || currentProject === ProjectList.getTodayProject()) {
-    if (ProjectList.getInboxProject().tasks.find((task) => task.id === newTask.id) === undefined) {
-      ProjectList.getInboxProject().tasks.push(newTask);
-    }
-  } else if (currentProject.tasks.find((task) => task.id === newTask.id) === undefined) {
-    currentProject.tasks.push(newTask);
+  // add the task in Inbox project if the task is created in the Inbox, Today
+  if (
+    currentProject === ProjectList.getInboxProject()
+    || currentProject === ProjectList.getTodayProject()
+  ) {
+    pushTaskToProjectIfNotPresent(newTask, ProjectList.getInboxProject());
+  } else {
+    pushTaskToProjectIfNotPresent(newTask, currentProject);
   }
 
   // add the task in Today project if the duedate is today
@@ -71,6 +76,19 @@ const addTaskToProject = (newTask, currentProject) => {
   }
   Storage.saveProjectList();
 };
+
+function pushTaskToProjectIfNotPresent(newTask, project) {
+  if (
+    project
+      .tasks
+      .find((task) => task.id === newTask.id)
+    === undefined
+  ) {
+    project
+      .tasks
+      .push(newTask);
+  }
+}
 
 const removeTaskFromAllProject = (taskToRemove, projectToFind) => {
   // retrieve all the projects that contains the task, cause Today and upcoming project can have the task
