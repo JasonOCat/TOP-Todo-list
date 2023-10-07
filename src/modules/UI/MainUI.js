@@ -1,7 +1,7 @@
 import * as ProjectList from '../ProjectList';
 import Storage from '../Storage';
 import SideBarProjectUI from './SideBarProjectUI';
-import ProjectViewUI from './ProjectViewUI';
+import * as ProjectViewUI from './ProjectViewUI';
 
 // one instance of Main UI so I use module pattern
 const initHomePage = () => {

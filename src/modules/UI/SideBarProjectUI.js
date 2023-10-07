@@ -1,4 +1,4 @@
-import ProjectViewUI from './ProjectViewUI';
+import * as ProjectViewUI from './ProjectViewUI';
 import Project, { isValidProjectName } from '../Project';
 import * as ProjectList from '../ProjectList';
 import ImgList from '../../img/list.png';

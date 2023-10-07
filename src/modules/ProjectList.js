@@ -4,7 +4,6 @@ import Storage from './Storage';
 // one instance of Project list so I use module pattern
 
 let _projects = [];
-
 const initProjects = () => {
   _projects.push(Project('Inbox', true));
   _projects.push(Project('Today', true));
