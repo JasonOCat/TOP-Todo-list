@@ -312,7 +312,7 @@ const initCheckboxTaskDone = (newTaskButtonDiv, task) => {
 
   checkboxTaskDone.addEventListener('click', (e) => {
     e.stopPropagation();
-    removeTaskFromAllProject(task, getCurrentProject());
+    removeTaskFromAllProject(task);
     newTaskButtonDiv.remove();
     Storage.saveProjectList();
   });
