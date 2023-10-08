@@ -16,7 +16,9 @@ const addProject = (newProject) => {
 };
 
 const deleteProject = (projectId) => {
-  const indexProjectToDelete = _projects.findIndex((project) => project.id === projectId);
+  const indexProjectToDelete = _projects.findIndex(
+    (project) => project.id === projectId
+  );
   if (indexProjectToDelete === -1) {
     throw Error(`The project id ${projectId} doesn't exist`);
   }
@@ -26,9 +28,12 @@ const deleteProject = (projectId) => {
 };
 
 function findProjectOfTask(taskToFind) {
-  const indexProjectOfTask = _projects.findIndex((project) => project !== getTodayProject()
-                    && project !== getUpcomingProject()
-                    && project.tasks.find((task) => task.id === taskToFind.id) !== undefined);
+  const indexProjectOfTask = _projects.findIndex(
+    (project) =>
+      project !== getTodayProject() &&
+      project !== getUpcomingProject() &&
+      project.tasks.find((task) => task.id === taskToFind.id) !== undefined
+  );
 
   if (indexProjectOfTask === -1) {
     throw Error(`The task id ${taskToFind.id} doesn't exist`);
@@ -39,14 +44,20 @@ function findProjectOfTask(taskToFind) {
 
 function addTaskToProjectToday(taskToAdd) {
   // don't add the project if its duedate is already today
-  if (getTodayProject().tasks.find((task) => task.id === taskToAdd.id) === undefined) {
+  if (
+    getTodayProject().tasks.find((task) => task.id === taskToAdd.id) ===
+    undefined
+  ) {
     getTodayProject().tasks.push(taskToAdd);
   }
 }
 
 function addTaskToProjectUpcoming(taskToAdd) {
   // don't add the project if its duedate is already today
-  if (getUpcomingProject().tasks.find((task) => task.id === taskToAdd.id) === undefined) {
+  if (
+    getUpcomingProject().tasks.find((task) => task.id === taskToAdd.id) ===
+    undefined
+  ) {
     getUpcomingProject().tasks.push(taskToAdd);
   }
 }
@@ -55,13 +66,17 @@ const setProjects = (arrProjects) => {
   _projects = arrProjects;
 };
 
-const getProjectById = (projectId) => _projects.find((project) => project.id === projectId);
+const getProjectById = (projectId) =>
+  _projects.find((project) => project.id === projectId);
 
-const getTodayProject = () => _projects.find((project) => project.special && project.name === 'Today');
+const getTodayProject = () =>
+  _projects.find((project) => project.special && project.name === 'Today');
 
-const getInboxProject = () => _projects.find((project) => project.special && project.name === 'Inbox');
+const getInboxProject = () =>
+  _projects.find((project) => project.special && project.name === 'Inbox');
 
-const getUpcomingProject = () => _projects.find((project) => project.special && project.name === 'Upcoming');
+const getUpcomingProject = () =>
+  _projects.find((project) => project.special && project.name === 'Upcoming');
 
 const getProjects = () => _projects;
 

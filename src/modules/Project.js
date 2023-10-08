@@ -56,13 +56,14 @@ class Project {
   }
 }
 
-const isValidProjectName = (projectName) => projectName && projectName.trim().length > 0;
+const isValidProjectName = (projectName) =>
+  projectName && projectName.trim().length > 0;
 
 const addTaskToProject = (newTask, currentProject) => {
   // add the task in Inbox project if the task is created in the Inbox, Today
   if (
-    currentProject === ProjectList.getInboxProject()
-    || currentProject === ProjectList.getTodayProject()
+    currentProject === ProjectList.getInboxProject() ||
+    currentProject === ProjectList.getTodayProject()
   ) {
     pushTaskToProjectIfNotPresent(newTask, ProjectList.getInboxProject());
   } else {
@@ -82,31 +83,23 @@ const addTaskToProject = (newTask, currentProject) => {
 };
 
 function pushTaskToProjectIfNotPresent(newTask, project) {
-  if (
-    project
-      .tasks
-      .find((task) => task.id === newTask.id)
-    === undefined
-  ) {
-    project
-      .tasks
-      .push(newTask);
+  if (project.tasks.find((task) => task.id === newTask.id) === undefined) {
+    project.tasks.push(newTask);
   }
 }
 
 const removeTaskFromAllProject = (taskToRemove) => {
   // retrieve all the projects that contains the task,
   // cause Today and upcoming project can have the task
-  ProjectList.getProjects()
-    .forEach((project) => {
-      project.tasks = project.tasks
-        .filter((task) => task.id !== taskToRemove.id);
-    });
+  ProjectList.getProjects().forEach((project) => {
+    project.tasks = project.tasks.filter((task) => task.id !== taskToRemove.id);
+  });
 
   Storage.saveProjectList();
 };
 
-const getTaskById = (taskId, project) => project.tasks.find((task) => task.id === taskId);
+const getTaskById = (taskId, project) =>
+  project.tasks.find((task) => task.id === taskId);
 
 function getTaskFromProject(project, taskToFind) {
   return project.tasks.find((task) => task.id === taskToFind.id);
@@ -118,5 +111,10 @@ function getIndexTaskFromProject(project, taskToFind) {
 
 export default Project;
 export {
-  removeTaskFromAllProject, isValidProjectName, getTaskById, addTaskToProject, getTaskFromProject, getIndexTaskFromProject,
+  removeTaskFromAllProject,
+  isValidProjectName,
+  getTaskById,
+  addTaskToProject,
+  getTaskFromProject,
+  getIndexTaskFromProject,
 };
