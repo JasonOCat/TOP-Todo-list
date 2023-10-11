@@ -11,8 +11,12 @@ const upcomingProjectButton = document.getElementById('btn-upcoming-project');
 
 // Add project form and buttons
 const btnAddProject = document.getElementById('btn-add-project');
-const btnFormAddProject = document.querySelector('#add-project-buttons .btn-add');
-const btnFormCancelProject = document.querySelector('#add-project-buttons .btn-cancel');
+const btnFormAddProject = document.querySelector(
+  '#add-project-buttons .btn-add'
+);
+const btnFormCancelProject = document.querySelector(
+  '#add-project-buttons .btn-cancel'
+);
 const inputAddProject = document.querySelector('.input-project');
 
 // Div with all the projects
@@ -85,16 +89,17 @@ const cancelAddProject = () => {
 };
 
 const handleInputAddProject = (e) => {
-  const addProjectButtonForm = document.querySelector('#add-project-buttons .btn-add');
+  const addProjectButtonForm = document.querySelector(
+    '#add-project-buttons .btn-add'
+  );
 
   if (isValidProjectName(e.target.value) && e.key === 'Enter') {
     addProject();
-  } else
-    if (isValidProjectName(e.target.value)) {
-      addProjectButtonForm.removeAttribute('disabled');
-    } else {
-      addProjectButtonForm.setAttribute('disabled', '');
-    }
+  } else if (isValidProjectName(e.target.value)) {
+    addProjectButtonForm.removeAttribute('disabled');
+  } else {
+    addProjectButtonForm.setAttribute('disabled', '');
+  }
 };
 
 /** ***** START HELPERS to display or hide the add project button or add project form *********** */
@@ -111,7 +116,9 @@ const displayAddProjectForm = () => {
 
 const hideAddProjectForm = () => {
   const addProjectForm = document.getElementById('add-project-form');
-  const addProjectFormButton = document.querySelector('#add-project-buttons .btn-add');
+  const addProjectFormButton = document.querySelector(
+    '#add-project-buttons .btn-add'
+  );
   addProjectForm.removeAttribute('active');
   addProjectFormButton.setAttribute('disabled', '');
 };
@@ -126,7 +133,8 @@ const hideAddProjectButton = () => {
   addProjectButton.removeAttribute('active');
 };
 
-/** ***** END HELPERS to display or hide the add project button, the add project form, or the list of projects *********** */
+/** ***** END HELPERS to display or hide the add project button,
+ * the add project form, or the list of projects *********** */
 
 const deleteProject = (event, projectButton) => {
   event.stopPropagation();
@@ -183,7 +191,9 @@ const addProjectButtons = (project) => {
   newProjectButton.appendChild(btnDeleteProject);
 
   // add event listener when clicking on delete project img
-  btnDeleteProject.addEventListener('click', (e) => deleteProject(e, newProjectButton));
+  btnDeleteProject.addEventListener('click', (e) =>
+    deleteProject(e, newProjectButton)
+  );
 };
 
 export {

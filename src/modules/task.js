@@ -1,6 +1,4 @@
-import {
-  compareAsc, format, parseISO,
-} from 'date-fns';
+import { compareAsc, format, parseISO } from 'date-fns';
 import { v4 as uuidv4 } from 'uuid';
 import * as Storage from './Storage';
 import * as DateUtils from './DateUtils';
@@ -16,7 +14,8 @@ const Task = (title, description = null, dueDate = null) => {
 
   const isPresentOrFutureDate = (date) => {
     const dateNow = parseISO(format(new Date(), 'dd/MM/yyyy'));
-    return date !== null && compareAsc(date, dateNow) !== -1; // check if the due date is not in the past
+    // check if the due date is not in the past
+    return date !== null && compareAsc(date, dateNow) !== -1;
   };
 
   if (!isValidTaskTitle(title)) {
@@ -42,19 +41,19 @@ const Task = (title, description = null, dueDate = null) => {
       return _title;
     },
 
-    set title(title) {
-      if (!isValidTaskTitle(title)) {
+    set title(newTitle) {
+      if (!isValidTaskTitle(newTitle)) {
         throw Error('Please provide a valid string for the title.');
       }
-      _title = title;
+      _title = newTitle;
     },
 
     get description() {
       return _description;
     },
 
-    set description(description) {
-      _description = description;
+    set description(newDescription) {
+      _description = newDescription;
     },
 
     get completed() {
@@ -62,8 +61,10 @@ const Task = (title, description = null, dueDate = null) => {
     },
 
     set completed(completed) {
-      if (completed == !true && completed == !false) {
-        throw 'Please provide a valid boolean to know if the task is completed.';
+      if (completed === !true && completed === !false) {
+        throw Error(
+          'Please provide a valid boolean to know if the task is completed.'
+        );
       }
       _completed = completed;
     },
@@ -74,7 +75,6 @@ const Task = (title, description = null, dueDate = null) => {
 
     set dueDate(dueDateString) {
       if (dueDateString === null) {
-        console.log('ll');
         return;
       }
 
@@ -84,13 +84,13 @@ const Task = (title, description = null, dueDate = null) => {
         alert('Please provide a valid date');
       }
     },
-
   };
 };
 
 const isValidTaskTitle = (title) => title && title.trim().length > 0;
 
-const isValidDescription = (description) => description && description.trim().length > 0;
+const isValidDescription = (description) =>
+  description && description.trim().length > 0;
 
 function getFormattedDueDate(task) {
   if (task.dueDate) {
@@ -100,7 +100,6 @@ function getFormattedDueDate(task) {
 }
 
 function updateTaskFromAllProjects(updatedTask) {
-  console.log(updatedTask.dueDate);
   const realProject = ProjectList.findProjectOfTask(updatedTask);
   realProject.tasks
     .filter((task) => task.id === updatedTask.id)
@@ -112,7 +111,10 @@ function updateTaskFromAllProjects(updatedTask) {
 
   // delete or add from Today project
   if (DateUtils.isDateToday(updatedTask.dueDate)) {
-    const taskToUdpate = getTaskFromProject(ProjectList.getTodayProject(), updatedTask);
+    const taskToUdpate = getTaskFromProject(
+      ProjectList.getTodayProject(),
+      updatedTask
+    );
     if (!taskToUdpate) {
       ProjectList.getTodayProject().tasks.push(updatedTask);
     } else {
@@ -124,7 +126,10 @@ function updateTaskFromAllProjects(updatedTask) {
 
   // due date of task is not today
   else {
-    const taskIndexToRemove = getIndexTaskFromProject(ProjectList.getTodayProject(), updatedTask);
+    const taskIndexToRemove = getIndexTaskFromProject(
+      ProjectList.getTodayProject(),
+      updatedTask
+    );
     if (taskIndexToRemove !== -1) {
       ProjectList.getTodayProject().tasks.splice(taskIndexToRemove, 1);
     }
@@ -132,7 +137,10 @@ function updateTaskFromAllProjects(updatedTask) {
 
   // delete or add from Upcoming project
   if (DateUtils.isPresentOrFutureDate(updatedTask.dueDate)) {
-    const taskInFuture = getTaskFromProject(ProjectList.getUpcomingProject(), updatedTask);
+    const taskInFuture = getTaskFromProject(
+      ProjectList.getUpcomingProject(),
+      updatedTask
+    );
     if (!taskInFuture) {
       ProjectList.getUpcomingProject().tasks.push(updatedTask);
     } else {
@@ -147,5 +155,8 @@ function updateTaskFromAllProjects(updatedTask) {
 
 export default Task;
 export {
-  isValidTaskTitle, isValidDescription, getFormattedDueDate, updateTaskFromAllProjects,
+  isValidTaskTitle,
+  isValidDescription,
+  getFormattedDueDate,
+  updateTaskFromAllProjects,
 };

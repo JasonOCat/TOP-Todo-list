@@ -1,11 +1,15 @@
-import {
-  format, parseISO, startOfToday, isSameYear,
-} from 'date-fns';
+import { format, parseISO, startOfToday, isSameYear } from 'date-fns';
 import Task, {
-  isValidTaskTitle, getFormattedDueDate, updateTaskFromAllProjects,
+  isValidTaskTitle,
+  getFormattedDueDate,
+  updateTaskFromAllProjects,
 } from '../Task';
 import * as ProjectList from '../ProjectList';
-import { addTaskToProject, removeTaskFromAllProject, getTaskById } from '../Project';
+import {
+  addTaskToProject,
+  removeTaskFromAllProject,
+  getTaskById,
+} from '../Project';
 import * as Storage from '../Storage';
 import * as DateUtils from '../DateUtils';
 
@@ -64,7 +68,9 @@ const openAddTaskForm = () => {
 
 const saveAndCloseOpenedTask = () => {
   // if an update form was already open we save the update if it's valid
-  const openedUpdateTaskForm = document.querySelector('.form-update-task-container[active]');
+  const openedUpdateTaskForm = document.querySelector(
+    '.form-update-task-container[active]'
+  );
   if (openedUpdateTaskForm) {
     // previous element contains the button task
     const btnTask = openedUpdateTaskForm.previousElementSibling;
@@ -90,8 +96,12 @@ const addTask = () => {
 
   addTaskToProject(newTask, currentProject);
 
-  // special case, if today project and its due date is not today, do not display it on today project
-  if (getCurrentProject() !== ProjectList.getTodayProject() || DateUtils.isDateToday(newTask.dueDate)) {
+  // special case, if today project and its due date is not today
+  // do not display it on today project
+  if (
+    getCurrentProject() !== ProjectList.getTodayProject() ||
+    DateUtils.isDateToday(newTask.dueDate)
+  ) {
     // display the new task
     displayTaskAndItsButtons(newTask);
   }
@@ -105,13 +115,20 @@ const addTask = () => {
 
 const updateOpenedTask = (btnTask, openedUpdateTaskForm) => {
   // get the closest input of the opened task
-  const inputTaskTitle = btnTask.nextSibling.querySelector('.input-update-task-title');
-  const inputTaskDescription = btnTask.nextSibling.querySelector('.input-update-task-description');
-  if (isValidTaskTitle(inputTaskTitle.value)) {
+  const inputOpenedTaskTitle = btnTask.nextSibling.querySelector(
+    '.input-update-task-title'
+  );
+  const inputOpenedTaskDescription = btnTask.nextSibling.querySelector(
+    '.input-update-task-description'
+  );
+  if (isValidTaskTitle(inputOpenedTaskTitle.value)) {
     // save the opened task
-    const taskToUpdate = getTaskById(btnTask.getAttribute('data-task'), getCurrentProject());
-    taskToUpdate.title = inputTaskTitle.value;
-    taskToUpdate.description = inputTaskDescription.value;
+    const taskToUpdate = getTaskById(
+      btnTask.getAttribute('data-task'),
+      getCurrentProject()
+    );
+    taskToUpdate.title = inputOpenedTaskTitle.value;
+    taskToUpdate.description = inputOpenedTaskDescription.value;
 
     const spanTitle = btnTask.querySelector('span.task-title');
     const spanDescription = btnTask.querySelector('span.task-description');
@@ -144,7 +161,6 @@ const clearInputTaskDescription = () => {
 };
 
 const clearInputTaskDueDate = () => {
-  const dateNow = format(new Date(), 'yyyy-MM-dd');
   inputDateAddTask.value = '';
 };
 
@@ -234,13 +250,22 @@ const displayTaskAndItsButtons = (task) => {
                 <div class="task-description-and-project">
                     <span class="task-date">
 
-                        ${task.dueDate
-    ? (DateUtils.isDateToday(task.dueDate)
-      ? '<p style="color: green;">Today</p>'
-      : (format(parseISO(task.dueDate), 'd LLL')) + (isSameYear(parseISO(task.dueDate), startOfToday())
-        ? ''
-        : ` ${format(parseISO(task.dueDate), 'yyyy')}`))
-    : ''}
+                        ${
+                          task.dueDate
+                            ? DateUtils.isDateToday(task.dueDate)
+                              ? '<p style="color: green;">Today</p>'
+                              : format(parseISO(task.dueDate), 'd LLL') +
+                                (isSameYear(
+                                  parseISO(task.dueDate),
+                                  startOfToday()
+                                )
+                                  ? ''
+                                  : ` ${format(
+                                      parseISO(task.dueDate),
+                                      'yyyy'
+                                    )}`)
+                            : ''
+                        }
                     </span>
                     <div>
                         ${ProjectList.findProjectOfTask(task).name}
@@ -264,7 +289,9 @@ const displayTaskAndItsButtons = (task) => {
                 value=${task.dueDate ? getFormattedDueDate(task) : null}
                 min=${DateUtils.getDateNow()}>
 
-                <div class="task-project-display">${ProjectList.findProjectOfTask(task).name}</div>
+                <div class="task-project-display">${
+                  ProjectList.findProjectOfTask(task).name
+                }</div>
                 </div>
 
             </div>
@@ -289,8 +316,12 @@ const displayTaskAndItsButtons = (task) => {
     divUpdateTaskForm.setAttribute('active', '');
 
     // in the update form, fill the title and description of the task
-    const inputUpdateTitle = divUpdateTaskForm.querySelector('.input-update-task-title');
-    const inputUpdateDescription = divUpdateTaskForm.querySelector('.input-update-task-description');
+    const inputUpdateTitle = divUpdateTaskForm.querySelector(
+      '.input-update-task-title'
+    );
+    const inputUpdateDescription = divUpdateTaskForm.querySelector(
+      '.input-update-task-description'
+    );
 
     inputUpdateTitle.value = task.title;
     inputUpdateDescription.value = task.description;
@@ -308,7 +339,9 @@ const displayTaskAndItsButtons = (task) => {
 };
 
 const initCheckboxTaskDone = (newTaskButtonDiv, task) => {
-  const checkboxTaskDone = newTaskButtonDiv.querySelector('.checkbox-task-done');
+  const checkboxTaskDone = newTaskButtonDiv.querySelector(
+    '.checkbox-task-done'
+  );
 
   checkboxTaskDone.addEventListener('click', (e) => {
     e.stopPropagation();
@@ -319,11 +352,21 @@ const initCheckboxTaskDone = (newTaskButtonDiv, task) => {
 };
 
 const initCancelAndSaveTaskButtons = (divUpdateTaskForm, taskButton, task) => {
-  const inputUpdateTitle = divUpdateTaskForm.querySelector('.input-update-task-title');
-  const inputUpdateDate = divUpdateTaskForm.querySelector('.input-update-task-date');
-  const inputUpdateDescription = divUpdateTaskForm.querySelector('.input-update-task-description');
-  const cancelUpdateButton = divUpdateTaskForm.querySelector('.btn-form-cancel-update-task');
-  const saveUpdateButton = divUpdateTaskForm.querySelector('.btn-form-update-task');
+  const inputUpdateTitle = divUpdateTaskForm.querySelector(
+    '.input-update-task-title'
+  );
+  const inputUpdateDate = divUpdateTaskForm.querySelector(
+    '.input-update-task-date'
+  );
+  const inputUpdateDescription = divUpdateTaskForm.querySelector(
+    '.input-update-task-description'
+  );
+  const cancelUpdateButton = divUpdateTaskForm.querySelector(
+    '.btn-form-cancel-update-task'
+  );
+  const saveUpdateButton = divUpdateTaskForm.querySelector(
+    '.btn-form-update-task'
+  );
   const spanTaskTitle = taskButton.querySelector('span.task-title');
   const spanTaskDescription = taskButton.querySelector('span.task-description');
   const spanTaskDate = taskButton.querySelector('span.task-date');
@@ -339,7 +382,10 @@ const initCancelAndSaveTaskButtons = (divUpdateTaskForm, taskButton, task) => {
 
   const updateTask = () => {
     // case when it's today project and the date is not today
-    if (getCurrentProject() === ProjectList.getTodayProject() && !DateUtils.isDateToday(inputUpdateDate.value)) {
+    if (
+      getCurrentProject() === ProjectList.getTodayProject() &&
+      !DateUtils.isDateToday(inputUpdateDate.value)
+    ) {
       // remove the task from Today project
       // removeTaskFromOneProject(task, ProjectList.getTodayProject());
 
@@ -361,13 +407,16 @@ const initCancelAndSaveTaskButtons = (divUpdateTaskForm, taskButton, task) => {
     taskButton.setAttribute('active', '');
     spanTaskTitle.textContent = task.title;
     spanTaskDescription.textContent = task.description;
-    spanTaskDate.innerHTML = `${task.dueDate
-      ? (DateUtils.isDateToday(task.dueDate)
-        ? '<p style="color: green;">Today</p>'
-        : (format(parseISO(task.dueDate), 'd LLL')) + (isSameYear(parseISO(task.dueDate), startOfToday())
-          ? ''
-          : ` ${format(parseISO(task.dueDate), 'yyyy')}`))
-      : ''}`;
+    spanTaskDate.innerHTML = `${
+      task.dueDate
+        ? DateUtils.isDateToday(task.dueDate)
+          ? '<p style="color: green;">Today</p>'
+          : format(parseISO(task.dueDate), 'd LLL') +
+            (isSameYear(parseISO(task.dueDate), startOfToday())
+              ? ''
+              : ` ${format(parseISO(task.dueDate), 'yyyy')}`)
+        : ''
+    }`;
     inputUpdateDate.value = task.dueDate;
     updateTaskFromAllProjects(task);
     Storage.saveProjectList();

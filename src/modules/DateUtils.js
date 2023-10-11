@@ -1,5 +1,9 @@
 import {
-  format, compareAsc, parseISO, startOfDay, startOfToday,
+  format,
+  compareAsc,
+  parseISO,
+  startOfDay,
+  startOfToday,
 } from 'date-fns';
 
 function getDateNow() {
@@ -11,11 +15,8 @@ function isDateToday(date) {
 }
 
 function isPresentOrFutureDate(date) {
-  return date !== null && compareAsc(parseISO(date), startOfToday()) !== -1; // check if the due date is not in the past
+  return date !== null && compareAsc(parseISO(date), startOfToday()) !== -1;
+  // check if the due date is not in the past
 }
 
-export {
-  getDateNow,
-  isDateToday,
-  isPresentOrFutureDate,
-};
+export { getDateNow, isDateToday, isPresentOrFutureDate };
